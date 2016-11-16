@@ -4,6 +4,7 @@ local man
 local man2
 local log_blank
 local log_right
+local flying_logs
 
 game.load = function()
   man = love.graphics.newImage('man.png')
@@ -18,6 +19,13 @@ game.update = function(delta_time)
 
   if death_timer <= 0 then
     show_game_over_state()
+  end
+
+  for index, flying_log in ipairs(flying_logs) do
+    flying_log.timer = flying_log.timer + delta_time
+    if flying_log.timer > 0.3 then
+      table.remove(flying_logs, index)
+    end
   end
 end
 
@@ -72,6 +80,28 @@ game.draw = function()
     )
   end
 
+  for index, flying_log in ipairs(flying_logs) do
+    local log_image = log_blank
+    local scale_x = 1
+    if flying_log.type == 'right' then
+      log_image = log_right
+    elseif flying_log.type == 'left' then
+      log_image = log_right
+      scale_x = -1
+    end
+
+    local flying_direction = 1
+
+    if flying_log.direction == 'left' then
+      flying_direction = -1
+    end
+
+    local position_x = 400 + (flying_log.timer * 100 * flying_direction)
+    love.graphics.setColor(255, 255, 255, (255 * (1 - flying_log.timer /0.3)))
+
+    love.graphics.draw(log_image, position_x, 400, 0, scale_x, 1, log_right:getWidth()/2, 0)
+  end
+
   love.graphics.setColor(0, 0, 0)
   love.graphics.print(score, 50, 50)
 
@@ -85,8 +115,13 @@ function chop()
     chop_timer = 0
     score = score + 1
     death_timer = math.min(death_timer + (1/score), 10)
-    table.remove(logs, 1)
     generate_log()
+    table.insert(flying_logs, {
+      timer = 0,
+      type = logs[1],
+      direction = (position == "right" and "left" or "right")
+    })
+    table.remove(logs, 1)
   end
 end
 
@@ -114,6 +149,7 @@ end
 game.restart = function()
   score = 0
   logs = { 'blank' }
+  flying_logs = {}
   chop_timer = 0
   position = 'right'
   death_timer = 10
