@@ -6,6 +6,7 @@ local man2
 local log_blank
 local log_right
 local flying_logs
+local flying_logs_animation
 
 game.load = function()
   man = love.graphics.newImage('man.png')
@@ -24,7 +25,7 @@ game.update = function(delta_time)
 
   for index, flying_log in ipairs(flying_logs) do
     flying_log.timer = flying_log.timer + delta_time
-    if flying_log.timer > 0.3 then
+    if flying_log.timer > 1.3 then
       table.remove(flying_logs, index)
     end
   end
@@ -97,10 +98,12 @@ game.draw = function()
       flying_direction = -1
     end
 
-    local position_x = 400 + (flying_log.timer * 100 * flying_direction)
-    love.graphics.setColor(255, 255, 255, (255 * (1 - flying_log.timer /0.3)))
+    local position_x = 400 + (flying_log.timer * 1000 * flying_direction)
+    local position_y = 400 - (flying_log.timer * 300 - flying_log.timer * flying_log.timer * flying_log.timer * 100)
+    local rotate = flying_log.timer * flying_log.rotate * flying_log.rotateSpeed
+    love.graphics.setColor(255, 255, 255, (255 * (1 - flying_log.timer /30.3)))
 
-    love.graphics.draw(log_image, position_x, 400, 0, scale_x, 1, log_right:getWidth()/2, 0)
+    love.graphics.draw(log_image, position_x, position_y, rotate, scale_x, 1, log_right:getWidth()/2, 0)
   end
 
   love.graphics.setColor(0, 0, 0)
@@ -120,7 +123,9 @@ function chop()
     table.insert(flying_logs, {
       timer = 0,
       type = logs[1],
-      direction = (position == "right" and "left" or "right")
+      direction = (position == "right" and "left" or "right"),
+      rotate = (math.random() > 0.5 and 1 or -1),
+      rotateSpeed = math.random(0.5,10)
     })
     table.remove(logs, 1)
   end
@@ -151,6 +156,7 @@ game.restart = function()
   score = 0
   logs = { 'blank' }
   flying_logs = {}
+  flying_logs_animation = {}
   chop_timer = 0
   position = 'right'
   death_timer = 10
