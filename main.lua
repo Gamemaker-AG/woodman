@@ -11,6 +11,7 @@ function love.load()
 end
 
 function love.update(delta_time)
+  
   if not game_over then
     game.update(delta_time)
   end
