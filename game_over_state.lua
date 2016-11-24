@@ -23,8 +23,8 @@ game_over_state.draw = function()
   love.graphics.print('Highscore is ' .. highscore, 50, 75)
 end
 
-game_over_state.keypressed = function(key)
-  if key == "space" then
+game_over_state.keypressed = function(key) 
+  if key == " " or key == "space" then
     game.restart()
     game_over = false
   end
