@@ -11,7 +11,7 @@ function love.load()
 end
 
 function love.update(delta_time)
-  
+
   if not game_over then
     game.update(delta_time)
   end
@@ -26,7 +26,9 @@ function love.draw()
 end
 
 function love.keypressed(key)
-  if not game_over then
+  if key == "escape" then
+    os.exit()
+  elseif not game_over then
     game.keypressed(key)
   else
     game_over_state.keypressed(key)
