@@ -6,12 +6,19 @@ local man2
 local log_blank
 local log_right
 local flying_logs
+local score = 0
+local highscore = 0
+local highscore_name = ''
+local audioHolzhacken
+local audioNewHighscore
 
 game.load = function()
   man = love.graphics.newImage('man.png')
   man2 = love.graphics.newImage('man2.png')
   log_blank = love.graphics.newImage('tree2.png')
   log_right = love.graphics.newImage('tree.png')
+  audioNewHighscore = love.audio.newSource('sounds/ScoreGreaterHighscore.mp3', 'static')
+  audioHolzhacken = love.audio.newSource('sounds/HolzHacken.mp3', 'static')
 end
 
 game.update = function(delta_time)
@@ -104,7 +111,14 @@ game.draw = function()
   end
 
   love.graphics.setColor(0, 0, 0)
-  love.graphics.print(score, 50, 50)
+  love.graphics.print('Score:', 30, 50)
+  love.graphics.print(score, 73, 50)
+  love.graphics.print('Highscore:', 680, 50)
+  if highscore_name == '' then
+    love.graphics.print(highscore, 680, 70)
+  else
+    love.graphics.print(highscore .. ' (' .. highscore_name .. ')', 680, 70)
+  end
 
   love.graphics.rectangle('line', 100, 50, 100 * (death_timer/10), 20)
 end
@@ -115,6 +129,10 @@ function chop()
   else
     chop_timer = 0
     score = score + 1
+    audioHolzhacken:play()
+    if highscore + 1 == score then
+      audioNewHighscore:play()
+    end
     death_timer = math.min(death_timer + (1/score), 10)
     generate_log()
     table.insert(flying_logs, {
@@ -144,7 +162,6 @@ end
 
 function show_game_over_state()
   game_over = true
-  game_over_state.restart(score)
 end
 
 game.restart = function()
@@ -159,6 +176,26 @@ game.restart = function()
   for i = 1, 4, 1 do
     generate_log()
   end
+end
+
+game.getHighscore = function()
+  return highscore
+end
+
+game.getScore = function()
+  return score
+end
+
+game.resetScore = function()
+  score = 0
+end
+
+game.setHighscore = function()
+  highscore = score
+end
+
+game.setHighscoreName = function(name)
+  highscore_name = name
 end
 
 return game

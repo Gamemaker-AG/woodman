@@ -2,10 +2,16 @@ game = require('./game')
 game_over_state = require('./game_over_state')
 
 function love.load()
+  love.window.setTitle('Woodman')
   love.graphics.setBackgroundColor(255, 255, 255)
+  normalFont = love.graphics.newFont(12)
+  largeFont = love.graphics.newFont(40)
+  love.graphics.setFont(normalFont)
 
   game_over_state.load()
   game.load()
+
+  highscore_name = '';
 
   game.restart()
 end
