@@ -51,8 +51,7 @@ game_over_state.keypressed = function(key)
     if game.getHighscore() < game.getScore() then
       game.setHighscore()
     end
-    game.resetScore()
-    game_over = false
+    game.restart()
   elseif  game.getScore() > game.getHighscore() then
     if key == 'backspace' then
       name = string.sub(name, 1, #name - 1)
