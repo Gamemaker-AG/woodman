@@ -50,6 +50,7 @@ game_over_state.keypressed = function(key)
     audioHighscore:stop()
     audioGameover:stop()
     game.restart()
+    current_state = game
   elseif  game.getScore() > scoreboard.getHighscore() then
     if key == 'backspace' then
       name = string.sub(name, 1, #name - 1)
