@@ -1,7 +1,14 @@
-scoreboard = require('./scoreboard')
+savegame = require("./savegame")
 game = require('./game')
 game_over_state = require('./game_over_state')
+local persisted_state = savegame.load()
 current_state = game
+
+local function new_high_score(name, new_score)
+    persisted_state = savegame.add_score(persisted_state, name, new_score)
+    savegame.save(persisted_state)
+    return persisted_state
+end
 
 function love.load()
   love.window.setTitle('Woodman')
@@ -10,8 +17,8 @@ function love.load()
   largeFont = love.graphics.newFont(40)
   love.graphics.setFont(normalFont)
 
-  game_over_state.load()
-  game.load()
+  game_over_state.load(new_high_score, persisted_state)
+  game.load(new_high_score, persisted_state)
 
   highscore_name = '';
 

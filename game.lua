@@ -1,3 +1,4 @@
+local savegame = require("savegame")
 game = {}
 
 local man
@@ -9,8 +10,12 @@ local score = 0
 local audioHolzhacken
 local audioNewHighscore
 local flying_logs_animation
+local persisted_state
+local score_change_callback
 
-game.load = function()
+game.load = function(callback, state)
+  score_change_callback = callback
+  persisted_state = state
   man = love.graphics.newImage('img/man.png')
   man2 = love.graphics.newImage('img/man2.png')
   log_blank = love.graphics.newImage('img/tree2.png')
@@ -114,7 +119,7 @@ game.draw = function()
   love.graphics.print('Score:', 30, 50)
   love.graphics.print(score, 73, 50)
   love.graphics.print('Highscore:', 680, 50)
-  love.graphics.print(scoreboard.getPrettyHighscore(), 680, 70)
+  love.graphics.print(savegame.getPrettyHighscore(persisted_state), 680, 70)
 
   love.graphics.rectangle('line', 100, 50, 100 * (death_timer/10), 20)
 end
@@ -126,7 +131,7 @@ function chop()
     chop_timer = 0
     score = score + 1
     audioHolzhacken:play()
-    if scoreboard.getHighscore() + 1 == score then
+    if savegame.getHighscore(persisted_state) + 1 == score then
       audioNewHighscore:play()
     end
     death_timer = math.min(death_timer + (1/score), 10)
