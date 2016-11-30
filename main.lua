@@ -1,3 +1,4 @@
+scoreboard = require('./scoreboard')
 game = require('./game')
 game_over_state = require('./game_over_state')
 
