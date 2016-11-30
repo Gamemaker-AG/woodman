@@ -17,7 +17,7 @@ end
 
 game_over_state.draw = function()
   love.graphics.setColor(255, 255, 255)
-  if game.getScore() > game.getHighscore() then
+  if game.getScore() > scoreboard.getHighscore() then
     love.graphics.draw(newHighscore, 0, 0)
     love.graphics.setColor(0, 0, 0)
     love.graphics.setFont(largeFont)
@@ -42,17 +42,15 @@ end
 game_over_state.keypressed = function(key)
   if key == 'return' or key == " " or key == "space" then
     audioAbgespielt = false
-    if game.getScore() > game.getHighscore() then
-      game.setHighscoreName(name)
+    if game.getScore() > scoreboard.getHighscore() then
+      scoreboard.setHighscore(name, game.getScore())
+      scoreboard.save()
     end
     name = ''
     audioHighscore:stop()
     audioGameover:stop()
-    if game.getHighscore() < game.getScore() then
-      game.setHighscore()
-    end
     game.restart()
-  elseif  game.getScore() > game.getHighscore() then
+  elseif  game.getScore() > scoreboard.getHighscore() then
     if key == 'backspace' then
       name = string.sub(name, 1, #name - 1)
     elseif key == 'space' then
