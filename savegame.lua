@@ -2,8 +2,8 @@ local bitser = require("lib/bitser")
 local savegame = {}
 
 savegame.load = function()
-    if love.filesystem.exists("savegame") then
-        return bitser.loads(love.filesystem.read("savegame"))
+    if love.filesystem.exists("savegame2") then
+        return bitser.loads(love.filesystem.read("savegame2"))
     end
     return {scores = {{"Nobody", 1}}}
 end
@@ -13,7 +13,7 @@ local function compare(a, b)
 end
 
 savegame.save = function(state)
-    local succ = love.filesystem.write("savegame", bitser.dumps(state))
+    local succ = love.filesystem.write("savegame2", bitser.dumps(state))
     if succ then
         print("Saved")
     else
