@@ -9,8 +9,8 @@ local audioHighscore
 
 
 game_over_state.load = function()
-  pwnd = love.graphics.newImage('pwnd.png')
-  newHighscore = love.graphics.newImage('newhighscore.png')
+  pwnd = love.graphics.newImage('img/pwnd.png')
+  newHighscore = love.graphics.newImage('img/newhighscore.png')
   audioGameover = love.audio.newSource('sounds/GameOver2.mp3')
   audioHighscore = love.audio.newSource('sounds/Highscore.mp3')
 end

@@ -11,10 +11,10 @@ local audioNewHighscore
 local flying_logs_animation
 
 game.load = function()
-  man = love.graphics.newImage('man.png')
-  man2 = love.graphics.newImage('man2.png')
-  log_blank = love.graphics.newImage('tree2.png')
-  log_right = love.graphics.newImage('tree.png')
+  man = love.graphics.newImage('img/man.png')
+  man2 = love.graphics.newImage('img/man2.png')
+  log_blank = love.graphics.newImage('img/tree2.png')
+  log_right = love.graphics.newImage('img/tree.png')
   audioNewHighscore = love.audio.newSource('sounds/ScoreGreaterHighscore.mp3', 'static')
   audioHolzhacken = love.audio.newSource('sounds/HolzHacken.mp3', 'static')
 end

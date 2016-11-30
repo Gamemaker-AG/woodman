@@ -1,4 +1,4 @@
-local bitser = require("bitser")
+local bitser = require("lib/bitser")
 local scores = {{"Nobody", 0}}
 scoreboard = {}
 
