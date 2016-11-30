@@ -1,3 +1,4 @@
+local savegame = require("savegame")
 game_over_state = {}
 
 local pwnd
@@ -6,9 +7,12 @@ local name = ''
 local audioAbgespielt = false
 local audioGameover
 local audioHighscore
+local new_score_callback
+local persisted_state
 
-
-game_over_state.load = function()
+game_over_state.load = function(callback, state)
+  new_score_callback = callback
+  persisted_state = state
   pwnd = love.graphics.newImage('img/pwnd.png')
   newHighscore = love.graphics.newImage('img/newhighscore.png')
   audioGameover = love.audio.newSource('sounds/GameOver2.mp3')
@@ -17,7 +21,7 @@ end
 
 game_over_state.draw = function()
   love.graphics.setColor(255, 255, 255)
-  if game.getScore() > scoreboard.getHighscore() then
+  if game.getScore() > savegame.getHighscore(persisted_state) then
     love.graphics.draw(newHighscore, 0, 0)
     love.graphics.setColor(0, 0, 0)
     love.graphics.setFont(largeFont)
@@ -42,15 +46,15 @@ end
 game_over_state.keypressed = function(key)
   if key == 'return' or key == " " or key == "space" then
     audioAbgespielt = false
-    if game.getScore() > scoreboard.getHighscore() then
-      scoreboard.setHighscore(name, game.getScore())
-      scoreboard.save()
+    if game.getScore() > savegame.getHighscore(persisted_state) then
+      new_score_callback(name, game.getScore())
+      savegame.save(persisted_state)
     end
     name = ''
     audioHighscore:stop()
     audioGameover:stop()
     game.restart()
-  elseif  game.getScore() > scoreboard.getHighscore() then
+  elseif  game.getScore() > savegame.getHighscore(persisted_state) then
     if key == 'backspace' then
       name = string.sub(name, 1, #name - 1)
     elseif key == 'space' then
