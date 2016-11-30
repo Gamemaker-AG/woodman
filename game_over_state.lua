@@ -40,7 +40,7 @@ game_over_state.draw = function()
 end
 
 game_over_state.keypressed = function(key)
-  if key == 'return' then
+  if key == 'return' or key == " " or key == "space" then
     audioAbgespielt = false
     if game.getScore() > game.getHighscore() then
       game.setHighscoreName(name)
