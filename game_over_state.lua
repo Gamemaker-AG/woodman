@@ -44,6 +44,7 @@ game_over_state.keypressed = function(key)
     audioAbgespielt = false
     if game.getScore() > scoreboard.getHighscore() then
       scoreboard.setHighscore(name, game.getScore())
+      scoreboard.save()
     end
     name = ''
     audioHighscore:stop()

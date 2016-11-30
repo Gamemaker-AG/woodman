@@ -1,12 +1,22 @@
+local serialize = require("ser")
+local scores = {{"Nobody", 0}}
 scoreboard = {}
 
-local scores = {{"NoOne", 5}}
+if love.filesystem.exists("savegame.lua") then
+    scores, _ = require("savegame")
+end
 
 function compare(a, b)
     return a[2] > b[2]
 end
 
 scoreboard.save = function()
+    local succ = love.filesystem.write("savegame.lua", serialize(scores))
+    if succ then
+        print("Saved")
+    else
+        print("Saving failed :(")
+    end
 end
 
 scoreboard.getHighscore = function()
