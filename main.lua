@@ -1,6 +1,7 @@
 scoreboard = require('./scoreboard')
 game = require('./game')
 game_over_state = require('./game_over_state')
+current_state = game
 
 function love.load()
   love.window.setTitle('Woodman')
@@ -18,25 +19,21 @@ function love.load()
 end
 
 function love.update(delta_time)
-  if not game_over then
-    game.update(delta_time)
+  if current_state.update then
+    current_state.update(delta_time)
   end
 end
 
 function love.draw()
-  if game_over then
-    game_over_state.draw()
-  else
-    game.draw()
+  if current_state.draw then
+    current_state.draw()
   end
 end
 
 function love.keypressed(key)
   if key == "escape" then
     os.exit()
-  elseif not game_over then
-    game.keypressed(key)
-  else
-    game_over_state.keypressed(key)
+  elseif current_state.keypressed then
+    current_state.keypressed(key)
   end
 end
