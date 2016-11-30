@@ -1,9 +1,9 @@
-local serialize = require("ser")
+local bitser = require("bitser")
 local scores = {{"Nobody", 0}}
 scoreboard = {}
 
-if love.filesystem.exists("savegame.lua") then
-    scores, _ = require("savegame")
+if love.filesystem.exists("savegame") then
+    scores = bitser.loads(love.filesystem.read("savegame"))
 end
 
 function compare(a, b)
@@ -11,7 +11,7 @@ function compare(a, b)
 end
 
 scoreboard.save = function()
-    local succ = love.filesystem.write("savegame.lua", serialize(scores))
+    local succ = love.filesystem.write("savegame", bitser.dumps(scores))
     if succ then
         print("Saved")
     else
