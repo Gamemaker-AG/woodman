@@ -25,7 +25,6 @@ game.load = function(callback, state)
   eichhörnchen = love.graphics.newImage('img/eichhörnchenHQ.png')
   audioNewHighscore = love.audio.newSource('sounds/ScoreGreaterHighscore.mp3', 'static')
   audioHolzhacken = love.audio.newSource('sounds/HolzHacken.mp3', 'static')
-  nuss_timer = 0
 end
 
 game.update = function(delta_time)
@@ -206,6 +205,7 @@ game.restart = function()
   for i = 1, 4, 1 do
     generate_log()
   end
+  nuss_timer = 0
 end
 
 game.getScore = function()
