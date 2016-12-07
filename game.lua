@@ -13,6 +13,21 @@ local flying_logs_animation
 local persisted_state
 local score_change_callback
 
+game.restart = function()
+  score = 0
+  logs = { 'blank' }
+  flying_logs = {}
+  flying_logs_animation = {}
+  chop_timer = 1
+  position = 'right'
+  death_timer = 10
+  game_over = false
+
+  for i = 1, 4, 1 do
+    generate_log()
+  end
+end
+
 game.load = function(callback, state)
   score_change_callback = callback
   persisted_state = state
@@ -165,21 +180,6 @@ end
 
 function show_game_over_state()
   current_state = game_over_state
-end
-
-game.restart = function()
-  score = 0
-  logs = { 'blank' }
-  flying_logs = {}
-  flying_logs_animation = {}
-  chop_timer = 0
-  position = 'right'
-  death_timer = 10
-  game_over = false
-
-  for i = 1, 4, 1 do
-    generate_log()
-  end
 end
 
 game.getScore = function()
