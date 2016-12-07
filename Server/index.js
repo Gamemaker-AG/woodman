@@ -1,15 +1,35 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var connect = require('connect');
+var fs = require('fs');
+
 var app = express();
 app.use(bodyParser.json());
 
-scores = []
+var scores = [];
 
-/*app.get('/', function(req, res) {
-    x = scores.sort(function(a,b){return b.score - a.score});
+function read() {
+    fs.readFile('saveonlinegame2', 'utf8', function (err, data) {
+        if (err && err.code === 'ENOENT') {
+            console.log("No file to read from");
+        } else if (!err) {
+            scores = JSON.parse(data);
+            console.log("File read");
+        } else {
+            throw err;
+        }
+    });
+}
 
-})*/
+function save() {
+    fs.writeFile("saveonlinegame2", JSON.stringify(scores), function(err) {
+        if(err) {
+            return console.log(err);
+        }
+
+        console.log("The file was saved!");
+    });
+}
 
 /*
 *   Returns a sorted list with scores.
@@ -37,28 +57,28 @@ app.get('/getScores', function (req, res) {
 app.post('/', function (req, res) {
     try{
         var i = scores.findIndex(x => x.name == req.body.name);
-        console.log(i);
         if (i>-1 && scores[i].score < req.body.score) {
             scores[i] = {score:req.body.score, name:req.body.name};
             res.statusCode = 200;
+            save();
         } else if (i == -1) {
             scores.push({score:req.body.score, name:req.body.name});
             res.statusCode = 200;
+            save();
         } else {
             res.statusCode = 409;
             res.body = "No new highscore";
         }
-
-        res.send();
     } catch (err) {
         res.statusCode = 400;
-        res.send();
     }
-
+    res.send();
    //res.send(scores.sort(function(a,b){return b.score - a.score}));
 })
 
 console.log(__dirname)
+
+read();
 
 var server = app.listen(80, function(){
     var host = server.address().address
