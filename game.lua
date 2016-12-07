@@ -12,6 +12,7 @@ local audioNewHighscore
 local flying_logs_animation
 local persisted_state
 local score_change_callback
+local time
 
 game.load = function(callback, state)
   score_change_callback = callback
@@ -25,6 +26,7 @@ game.load = function(callback, state)
 end
 
 game.update = function(delta_time)
+  time = time + delta_time
   chop_timer = chop_timer + delta_time
   death_timer = death_timer - delta_time
 
@@ -50,7 +52,16 @@ game.keypressed = function(key)
   end
 end
 
+local function draw_background(time)
+  shader = love.graphics.newShader("sunset.glsl")
+  shader:send("time", time)
+  love.graphics.setShader(shader)
+  love.graphics.rectangle('fill', 0, 0, 1000, 1000)
+  love.graphics.setShader()
+end
+
 game.draw = function()
+  draw_background(time)
   man_image = man2
 
   if chop_timer < 0.1 then
@@ -176,6 +187,7 @@ game.restart = function()
   position = 'right'
   death_timer = 10
   game_over = false
+  time = 0
 
   for i = 1, 4, 1 do
     generate_log()
