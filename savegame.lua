@@ -35,7 +35,6 @@ end
 
 savegame.add_score = function(state, name, score)
     table.insert(state.scores, 1, {name, score})
-    return state
 end
 
 return savegame
