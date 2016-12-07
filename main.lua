@@ -24,6 +24,8 @@ function love.load()
   coins.load(persisted_state)
 
   highscore_name = '';
+  nuss = 0
+  kleeblatt = 0
 
   game.restart()
 end

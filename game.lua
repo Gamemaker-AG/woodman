@@ -59,7 +59,6 @@ game.keypressed = function(key)
   elseif key == 'left' then
     position = 'left'
     chop()
-  end
   elseif key == 'space' then
     if nuss_timer > 0 then
       score = score + 5
