@@ -1,4 +1,5 @@
 local bitser = require("lib/bitser")
+local webscore = require("lib/webscore")
 local savegame = {}
 
 savegame.load = function()
@@ -14,10 +15,16 @@ end
 
 savegame.save = function(state)
     local succ = love.filesystem.write("savegame2", bitser.dumps(state))
+    local websucc = webscore.sendScore(state.scores[1][2], state.scores[1][1])
     if succ then
         print("Saved")
     else
         print("Saving failed :(")
+    end
+    if websucc then
+        print("Webscore saved")
+    else
+        print("Webscore not saved")
     end
 end
 
