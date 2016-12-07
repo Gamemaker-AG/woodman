@@ -44,6 +44,7 @@ game_over_state.draw = function()
   end
   love.graphics.setColor(255, 255, 255)
   love.graphics.draw(coinsInvestieren, 530, 550)
+  love.graphics.setColor(0, 0, 0)
   love.graphics.print('(press return to continue)', love.graphics.getWidth()/2-80, love.graphics.getHeight()-40)
 end
 

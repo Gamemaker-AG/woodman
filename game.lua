@@ -11,7 +11,7 @@ local score = 0
 local audioHolzhacken
 local audioNewHighscore
 local flying_logs_animation
-local nuss_timer
+local nuts_timer
 local persisted_state
 local score_change_callback
 
@@ -25,6 +25,7 @@ game.load = function(callback, state)
   eichhörnchen = love.graphics.newImage('img/eichhörnchenHQ.png')
   audioNewHighscore = love.audio.newSource('sounds/ScoreGreaterHighscore.mp3', 'static')
   audioHolzhacken = love.audio.newSource('sounds/HolzHacken.mp3', 'static')
+  nuts_timer = 0
 end
 
 game.update = function(delta_time)
@@ -42,13 +43,14 @@ game.update = function(delta_time)
     end
   end
 
-  if nuss_timer <= 0 and nuss > 0 then
+  if nuts_timer <= 0 and savegame.get_nuts(persisted_state) > 0 then
     if math.random() < 0.003 then
-      nuss_timer = 1
-      nuss = nuss - 1
+      nuts_timer = 1
+      savegame.decrement_nuts(persisted_state)
+      savegame.save(persisted_state)
     end
-  elseif nuss_timer > 0 then
-    nuss_timer = nuss_timer - delta_time
+  elseif nuts_timer > 0 then
+    nuts_timer = nuts_timer - delta_time
   end
 end
 
@@ -60,9 +62,9 @@ game.keypressed = function(key)
     position = 'left'
     chop()
   elseif key == 'space' then
-    if nuss_timer > 0 then
+    if nuts_timer > 0 then
       score = score + 5
-      nuss_timer = 0
+      nuts_timer = 0
     else
       score = score - 1
     end
@@ -142,7 +144,7 @@ game.draw = function()
 
   love.graphics.rectangle('line', 100, 50, 100 * (death_timer/10), 20)
 
-  if nuss_timer > 0 then
+  if nuts_timer > 0 then
     love.graphics.setColor(255, 255, 255)
     love.graphics.draw(eichhörnchen, 691, 0)
   end
@@ -154,6 +156,9 @@ function chop()
   else
     chop_timer = 0
     score = score + 1
+    if score % 10 == 0 then
+      savegame.add_coins(persisted_state, 1)
+    end
     audioHolzhacken:play()
     if savegame.getHighscore(persisted_state) + 1 == score then
       audioNewHighscore:play()
@@ -204,7 +209,7 @@ game.restart = function()
   for i = 1, 4, 1 do
     generate_log()
   end
-  nuss_timer = 0
+  nuts_timer = 0
 end
 
 game.getScore = function()
