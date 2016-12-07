@@ -5,7 +5,7 @@ savegame.load = function()
     if love.filesystem.exists("savegame2") then
         return bitser.loads(love.filesystem.read("savegame2"))
     end
-    return {scores = {{"Nobody", 1}}}
+    return {scores = {{"Nobody", 1}}, coins = 0, kleeblatt = 0, nuss = 0}
 end
 
 local function compare(a, b)
@@ -32,10 +32,17 @@ savegame.getPrettyHighscore = function(state)
     return s .. ' (' .. n .. ')'
 end
 
-
 savegame.add_score = function(state, name, score)
     table.insert(state.scores, 1, {name, score})
     return scores
+end
+
+savegame.add_coin = function(state)
+  state.coins = state.coins + 1
+end
+
+savegame.add_coin = function(state)
+  state.coins = state.coins + 1
 end
 
 return savegame

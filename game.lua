@@ -5,11 +5,13 @@ local man
 local man2
 local log_blank
 local log_right
+local eichhörnchen
 local flying_logs
 local score = 0
 local audioHolzhacken
 local audioNewHighscore
 local flying_logs_animation
+local nuss_timer
 local persisted_state
 local score_change_callback
 
@@ -20,8 +22,10 @@ game.load = function(callback, state)
   man2 = love.graphics.newImage('img/man2.png')
   log_blank = love.graphics.newImage('img/tree2.png')
   log_right = love.graphics.newImage('img/tree.png')
+  eichhörnchen = love.graphics.newImage('img/eichhörnchenHQ.png')
   audioNewHighscore = love.audio.newSource('sounds/ScoreGreaterHighscore.mp3', 'static')
   audioHolzhacken = love.audio.newSource('sounds/HolzHacken.mp3', 'static')
+  nuss_timer = 0
 end
 
 game.update = function(delta_time)
@@ -38,6 +42,15 @@ game.update = function(delta_time)
       table.remove(flying_logs, index)
     end
   end
+
+  if nuss_timer <= 0 and nuss > 0 then
+    if math.random() < 0.003 then
+      nuss_timer = 1
+      nuss = nuss - 1
+    end
+  elseif nuss_timer > 0 then
+    nuss_timer = nuss_timer - delta_time
+  end
 end
 
 game.keypressed = function(key)
@@ -47,6 +60,14 @@ game.keypressed = function(key)
   elseif key == 'left' then
     position = 'left'
     chop()
+  end
+  elseif key == 'space' then
+    if nuss_timer > 0 then
+      score = score + 5
+      nuss_timer = 0
+    else
+      score = score - 1
+    end
   end
 end
 
@@ -122,6 +143,11 @@ game.draw = function()
   love.graphics.print(savegame.getPrettyHighscore(persisted_state), 680, 70)
 
   love.graphics.rectangle('line', 100, 50, 100 * (death_timer/10), 20)
+
+  if nuss_timer > 0 then
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.draw(eichhörnchen, 691, 0)
+  end
 end
 
 function chop()
@@ -184,6 +210,10 @@ end
 
 game.getScore = function()
     return score
+end
+
+game.mousepressed = function(x, y, button, istouch)
+
 end
 
 return game
