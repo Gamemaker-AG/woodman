@@ -2,8 +2,10 @@ savegame = require("./savegame")
 game = require('./game')
 game_over_state = require('./game_over_state')
 coins = require('./coins')
+main_menu = require('./main_menu')
+
 local persisted_state = savegame.load()
-current_state = game
+current_state = main_menu
 
 local function new_high_score(name, new_score)
     persisted_state = savegame.add_score(persisted_state, name, new_score)
@@ -22,6 +24,7 @@ function love.load()
   game_over_state.load(new_high_score, persisted_state)
   game.load(new_high_score, persisted_state)
   coins.load(persisted_state)
+  main_menu.load()
 
   highscore_name = '';
 
