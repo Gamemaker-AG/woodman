@@ -6,6 +6,11 @@ app.use(bodyParser.json());
 
 scores = []
 
+/*app.get('/', function(req, res) {
+    x = scores.sort(function(a,b){return b.score - a.score});
+
+})*/
+
 /*
 *   Returns a sorted list with scores.
 *
@@ -13,7 +18,7 @@ scores = []
 *   @param begin First score to return (Optional)
 *   @param end Last score to return (Optional)
 */
-app.get('/', function (req, res) {
+app.get('/getScores', function (req, res) {
     x = scores.sort(function(a,b){return b.score - a.score});
 
     if (req.query.name) {
@@ -31,11 +36,22 @@ app.get('/', function (req, res) {
 */
 app.post('/', function (req, res) {
     try{
-        scores.push({score:req.body.score, name:req.body.name});
-        res.statusCode = 200
+        var i = scores.findIndex(x => x.name == req.body.name);
+        console.log(i);
+        if (i>-1 && scores[i].score < req.body.score) {
+            scores[i] = {score:req.body.score, name:req.body.name};
+            res.statusCode = 200;
+        } else if (i == -1) {
+            scores.push({score:req.body.score, name:req.body.name});
+            res.statusCode = 200;
+        } else {
+            res.statusCode = 409;
+            res.body = "No new highscore";
+        }
+
         res.send();
     } catch (err) {
-        res.statusCode = 400
+        res.statusCode = 400;
         res.send();
     }
 
