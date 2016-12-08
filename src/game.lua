@@ -210,6 +210,7 @@ function generate_log()
 end
 
 function show_game_over_state()
+  game_over_state.restart()
   current_state = game_over_state
 end
 
