@@ -39,7 +39,7 @@ game.load = function(callback, state)
     log_blank = love.graphics.newImage('assets/img/tree2.png')
     log_right = love.graphics.newImage('assets/img/tree.png')
     audioNewHighscore = love.audio.newSource('assets/sounds/improved_highscore.mp3', 'static')
-    squirrel = love.graphics.newImage('assets/img/squirel.png')
+    squirrel = love.graphics.newImage('assets/img/squirrel.png')
     chopwood_audio = love.audio.newSource('assets/sounds/chop_wood.mp3', 'static')
     nuts_timer = 0
 end
