@@ -37,31 +37,31 @@ savegame.add_score = function(state, name, score)
 end
 
 savegame.add_coins = function(state, number)
-  state.collected_coins = state.collected_coins + number
+    state.collected_coins = state.collected_coins + number
 end
 
 savegame.getCoins = function(state)
-  return state.collected_coins
+    return state.collected_coins
 end
 
 savegame.add_cloverleaf = function(state)
-  state.bought_cloverleaf = state.bought_cloverleaf + 1
+    state.bought_cloverleaf = state.bought_cloverleaf + 1
 end
 
 savegame.add_nuts = function(state)
-  state.bought_nuts = state.bought_nuts + 3
+    state.bought_nuts = state.bought_nuts + 3
 end
 
 savegame.decrement_nuts = function(state)
-  state.bought_nuts = state.bought_nuts - 1
+    state.bought_nuts = state.bought_nuts - 1
 end
 
 savegame.get_nuts = function(state)
-  return state.bought_nuts
+    return state.bought_nuts
 end
 
 savegame.get_cloverleaf = function(state)
-  return state.bought_cloverleaf
+    return state.bought_cloverleaf
 end
 
 return savegame
