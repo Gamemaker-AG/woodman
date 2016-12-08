@@ -14,21 +14,21 @@ coins.load = function(state)
   table.insert(upgrades, {
     img = kleeblatt_img,
     header = 'Kleeblatt',
-    getFunction = savegame.get_cloverleaf,
+    get_function = savegame.get_cloverleaf,
     cost = 20,
     text = 'Das Kleeblatt erhöht dein Glück!\n(Äste tauchen häufiger auf derselben Seite auf)'
   })
   table.insert(upgrades, {
     img = nut_img,
     header = 'Nuss',
-    getFunction = savegame.get_nuts,
+    get_function = savegame.get_nuts,
     cost = 10,
     text = 'Die Nuss lockt Eichhörnchen an, die zusätzliche Punkte geben!\nJede Nuss lockt 3 Eichhörnchen an.\nUm ein Eichhörnchen zu töten, drücke Space.'
   })
   table.insert(upgrades, {
     img = back_img,
     header = 'back',
-    getFunction = function() return 0 end,
+    get_function = function() return 0 end,
     cost = '',
     text = ''
   })
@@ -49,7 +49,7 @@ coins.draw = function()
       love.graphics.print(upgrade.header, 140, index*125-30)
     end
     love.graphics.setFont(normalFont)
-    love.graphics.print('Du hast ' .. upgrade.getFunction(persisted_state), 140, index*125-10)
+    love.graphics.print('Du hast ' .. upgrade.get_function(persisted_state), 140, index*125-10)
     love.graphics.print(upgrade.cost .. ' Coins', 260, index*125-30)
     love.graphics.print(upgrade.text, 330, index*125-40)
   end
