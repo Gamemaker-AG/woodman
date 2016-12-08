@@ -1,4 +1,4 @@
-local savegame = require("savegame")
+local savegame = require("src/savegame")
 game = {}
 
 local man
@@ -31,12 +31,12 @@ end
 game.load = function(callback, state)
   score_change_callback = callback
   persisted_state = state
-  man = love.graphics.newImage('img/man.png')
-  man2 = love.graphics.newImage('img/man2.png')
-  log_blank = love.graphics.newImage('img/tree2.png')
-  log_right = love.graphics.newImage('img/tree.png')
-  audioNewHighscore = love.audio.newSource('sounds/ScoreGreaterHighscore.mp3', 'static')
-  audioHolzhacken = love.audio.newSource('sounds/HolzHacken.mp3', 'static')
+  man = love.graphics.newImage('assets/img/man.png')
+  man2 = love.graphics.newImage('assets/img/man2.png')
+  log_blank = love.graphics.newImage('assets/img/tree2.png')
+  log_right = love.graphics.newImage('assets/img/tree.png')
+  audioNewHighscore = love.audio.newSource('assets/sounds/improved_highscore.mp3', 'static')
+  audioHolzhacken = love.audio.newSource('assets/sounds/chop_wood.mp3', 'static')
 end
 
 game.update = function(delta_time)

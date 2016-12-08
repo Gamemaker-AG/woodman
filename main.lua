@@ -1,7 +1,7 @@
-savegame = require("./savegame")
-game = require('./game')
-game_over_state = require('./game_over_state')
-main_menu = require('./main_menu')
+savegame = require("./src/savegame")
+game = require('./src/game')
+game_over_state = require('./src/game_over_state')
+main_menu = require('./src/main_menu')
 
 local persisted_state = savegame.load()
 current_state = main_menu

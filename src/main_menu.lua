@@ -3,7 +3,7 @@ local main_menu = {}
 local bg
 
 function main_menu.load()
-  bg = love.graphics.newImage('img/main_menu.png')
+  bg = love.graphics.newImage('assets/img/main_menu.png')
 end
 
 function main_menu.keypressed(key)

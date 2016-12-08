@@ -1,4 +1,4 @@
-local savegame = require("savegame")
+local savegame = require("./src/savegame")
 game_over_state = {}
 
 local pwnd
@@ -13,10 +13,10 @@ local persisted_state
 game_over_state.load = function(callback, state)
   new_score_callback = callback
   persisted_state = state
-  pwnd = love.graphics.newImage('img/pwnd.png')
-  newHighscore = love.graphics.newImage('img/newhighscore.png')
-  audioGameover = love.audio.newSource('sounds/GameOver2.mp3')
-  audioHighscore = love.audio.newSource('sounds/Highscore.mp3')
+  pwnd = love.graphics.newImage('assets/img/pwnd.png')
+  newHighscore = love.graphics.newImage('assets/img/new_highscore.png')
+  audioGameover = love.audio.newSource('assets/sounds/game_over.mp3')
+  audioHighscore = love.audio.newSource('assets/sounds/highscore.mp3')
 end
 
 game_over_state.draw = function()
