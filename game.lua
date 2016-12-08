@@ -5,11 +5,13 @@ local man
 local man2
 local log_blank
 local log_right
+local eichhörnchen
 local flying_logs
 local score = 0
 local audioHolzhacken
 local audioNewHighscore
 local flying_logs_animation
+local nuts_timer
 local persisted_state
 local score_change_callback
 
@@ -26,6 +28,7 @@ game.restart = function()
   for i = 1, 4, 1 do
     generate_log()
   end
+  nuts_timer = 0
 end
 
 game.load = function(callback, state)
@@ -35,8 +38,10 @@ game.load = function(callback, state)
   man2 = love.graphics.newImage('img/man2.png')
   log_blank = love.graphics.newImage('img/tree2.png')
   log_right = love.graphics.newImage('img/tree.png')
+  eichhörnchen = love.graphics.newImage('img/eichhörnchenHQ.png')
   audioNewHighscore = love.audio.newSource('sounds/ScoreGreaterHighscore.mp3', 'static')
   audioHolzhacken = love.audio.newSource('sounds/HolzHacken.mp3', 'static')
+  nuts_timer = 0
 end
 
 game.update = function(delta_time)
@@ -53,6 +58,16 @@ game.update = function(delta_time)
       table.remove(flying_logs, index)
     end
   end
+
+  if nuts_timer <= 0 and savegame.get_nuts(persisted_state) > 0 then
+    if math.random() < 0.003 then
+      nuts_timer = 1
+      savegame.decrement_nuts(persisted_state)
+      savegame.save(persisted_state)
+    end
+  elseif nuts_timer > 0 then
+    nuts_timer = nuts_timer - delta_time
+  end
 end
 
 game.keypressed = function(key)
@@ -62,6 +77,13 @@ game.keypressed = function(key)
   elseif key == 'left' then
     position = 'left'
     chop()
+  elseif key == 'space' then
+    if nuts_timer > 0 then
+      score = score + 5
+      nuts_timer = 0
+    else
+      score = score - 1
+    end
   end
 end
 
@@ -137,6 +159,11 @@ game.draw = function()
   love.graphics.print(savegame.getPrettyHighscore(persisted_state), 680, 70)
 
   love.graphics.rectangle('line', 100, 50, 100 * (death_timer/10), 20)
+
+  if nuts_timer > 0 then
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.draw(eichhörnchen, 691, 0)
+  end
 end
 
 function chop()
@@ -145,6 +172,9 @@ function chop()
   else
     chop_timer = 0
     score = score + 1
+    if score % 10 == 0 then
+      savegame.add_coins(persisted_state, 1)
+    end
     audioHolzhacken:play()
     if savegame.getHighscore(persisted_state) + 1 == score then
       audioNewHighscore:play()
@@ -184,6 +214,10 @@ end
 
 game.getScore = function()
     return score
+end
+
+game.mousepressed = function(x, y, button, istouch)
+
 end
 
 return game
