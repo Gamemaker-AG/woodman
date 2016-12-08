@@ -5,10 +5,10 @@ local man
 local man2
 local log_blank
 local log_right
-local eichhörnchen
+local squirrel
 local flying_logs
 local score = 0
-local audioHolzhacken
+local chopwood_audio
 local audioNewHighscore
 local flying_logs_animation
 local nuts_timer
@@ -39,9 +39,8 @@ game.load = function(callback, state)
     log_blank = love.graphics.newImage('assets/img/tree2.png')
     log_right = love.graphics.newImage('assets/img/tree.png')
     audioNewHighscore = love.audio.newSource('assets/sounds/improved_highscore.mp3', 'static')
-    audioHolzhacken = love.audio.newSource('assets/sounds/chop_wood.mp3', 'static')
-    eichhörnchen = love.graphics.newImage('assets/img/eichhörnchenHQ.png')
-    audioHolzhacken = love.audio.newSource('assets/sounds/chop_wood.mp3', 'static')
+    squirrel = love.graphics.newImage('assets/img/squirrel.png')
+    chopwood_audio = love.audio.newSource('assets/sounds/chop_wood.mp3', 'static')
     nuts_timer = 0
 end
 
@@ -163,7 +162,7 @@ game.draw = function()
 
     if nuts_timer > 0 then
         love.graphics.setColor(255, 255, 255)
-        love.graphics.draw(eichhörnchen, 691, 0)
+        love.graphics.draw(squirrel, 691, 0)
     end
 end
 
@@ -176,7 +175,7 @@ function chop()
         if score % 10 == 0 then
             savegame.add_coins(persisted_state, 1)
         end
-        audioHolzhacken:play()
+        chopwood_audio:play()
         if savegame.getHighscore(persisted_state) + 1 == score then
             audioNewHighscore:play()
         end
@@ -210,6 +209,7 @@ function generate_log()
 end
 
 function show_game_over_state()
+    game_over_state.restart()
     current_state = game_over_state
 end
 

@@ -5,7 +5,14 @@ savegame.load = function()
     if love.filesystem.exists("savegame2") then
         return bitser.loads(love.filesystem.read("savegame2"))
     end
-    return {scores = {{"Nobody", 1}}, collected_coins = 60, bought_cloverleaf = 0, bought_nuts = 0}
+    return {
+        scores = {
+            {"Nobody", 1}
+        },
+        collected_coins = 60,
+        bought_cloverleaf = 0,
+        bought_nuts = 0
+    }
 end
 
 local function compare(a, b)
