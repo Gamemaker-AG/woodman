@@ -32,6 +32,10 @@ coins.load = function(state)
         cost = '',
         text = ''
     })
+    coins.restart()
+end
+
+coins.restart = function()
     upgrade_marked = 1
 end
 
