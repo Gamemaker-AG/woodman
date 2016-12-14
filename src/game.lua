@@ -216,8 +216,4 @@ game.getScore = function()
     return score
 end
 
-game.mousepressed = function(x, y, button, istouch)
-
-end
-
 return game

@@ -50,7 +50,3 @@ function love.keypressed(key)
     current_state.keypressed(key)
   end
 end
-
-function love.mousepressed(x, y, button, istouch)
-  current_state.mousepressed(x, y, button, istouch)
-end

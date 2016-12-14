@@ -49,7 +49,7 @@ game_over_state.draw = function()
 end
 
 game_over_state.keypressed = function(key)
-  if key == 'return' or key == " " or key == "space" then
+  if key == 'return' then
     audioAbgespielt = false
     if game.getScore() > savegame.getHighscore(persisted_state) then
       new_score_callback(name, game.getScore())
@@ -60,6 +60,9 @@ game_over_state.keypressed = function(key)
     audioGameover:stop()
     game.restart()
     current_state = game
+  elseif key == 'tab' then
+    current_state = coins
+    coins.update_state(persisted_state)
   elseif  game.getScore() > savegame.getHighscore(persisted_state) then
     if key == 'backspace' then
       name = string.sub(name, 1, #name - 1)
@@ -71,12 +74,6 @@ game_over_state.keypressed = function(key)
       end
       name = name .. key
     end
-  end
-end
-
-game_over_state.mousepressed = function(x, y, button, istouch)
-  if x >= 530 and y >= 550 then
-    current_state = coins
   end
 end
 
