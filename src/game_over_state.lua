@@ -9,11 +9,9 @@ local audio_game_over
 local audio_highscore
 local coin_state_button
 local new_score_callback
-local persisted_state
 
-game_over_state.load = function(callback, state)
+game_over_state.load = function(callback)
     new_score_callback = callback
-    persisted_state = state
     pwnd_image = love.graphics.newImage('assets/img/pwnd.png')
     new_highscore = love.graphics.newImage('assets/img/new_highscore.png')
     coin_state_button = love.graphics.newImage('assets/img/coins.png')
@@ -52,7 +50,7 @@ game_over_state.draw = function()
 end
 
 game_over_state.keypressed = function(key)
-    if key == 'return' or key == " " or key == "space" then
+    if key == 'return' then
         if game.getScore() > savegame.getHighscore(persisted_state) then
             new_score_callback(player_name, game.getScore())
             savegame.save(persisted_state)
@@ -61,6 +59,8 @@ game_over_state.keypressed = function(key)
         audio_game_over:stop()
         game.restart()
         current_state = game
+    elseif key == 'tab' then
+        current_state = coins
     elseif game.getScore() > savegame.getHighscore(persisted_state) then
         if key == 'backspace' then
             player_name = string.sub(player_name, 1, #player_name - 1)
@@ -72,13 +72,6 @@ game_over_state.keypressed = function(key)
             end
             player_name = player_name .. key
         end
-    end
-end
-
-game_over_state.mousepressed = function(x, y, button, istouch)
-    if x >= 530 and y >= 550 then
-        coins.restart()
-        current_state = coins
     end
 end
 

@@ -12,7 +12,6 @@ local chopwood_audio
 local audioNewHighscore
 local flying_logs_animation
 local nuts_timer
-local persisted_state
 local score_change_callback
 
 game.restart = function()
@@ -31,9 +30,8 @@ game.restart = function()
     nuts_timer = 0
 end
 
-game.load = function(callback, state)
+game.load = function(callback)
     score_change_callback = callback
-    persisted_state = state
     man = love.graphics.newImage('assets/img/man.png')
     man2 = love.graphics.newImage('assets/img/man2.png')
     log_blank = love.graphics.newImage('assets/img/tree2.png')

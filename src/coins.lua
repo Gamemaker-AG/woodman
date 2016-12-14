@@ -3,11 +3,9 @@ local coins = {}
 local kleeblatt_img
 local items = {}
 local item_marked
-local persisted_state
 
 
-coins.load = function(state)
-  persisted_state = state
+coins.load = function()
   kleeblatt_img = love.graphics.newImage('assets/img/kleeblatt_dummy.png')
   nut_img = love.graphics.newImage('assets/img/nuss_dummy.png')
   table.insert(items, {
@@ -63,7 +61,6 @@ coins.keypressed = function(key)
   if key == 'return' then
     if item_marked == table.getn(items) then
       current_state = game_over_state
-      game_over_state.load(persisted_state)
     elseif savegame.getCoins(persisted_state) >= items[item_marked].cost then
       savegame.add_coins(persisted_state, -items[item_marked].cost)
       if items[item_marked].header == 'Kleeblatt' then
@@ -86,10 +83,6 @@ coins.keypressed = function(key)
       item_marked = table.getn(items)
     end
   end
-end
-
-coins.update_state = function(state)
-  persisted_state = state
 end
 
 return coins
