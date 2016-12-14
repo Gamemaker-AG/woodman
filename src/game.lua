@@ -40,13 +40,6 @@ game.update = function(delta_time)
         show_game_over_state()
     end
 
-    -- for index, flying_log in ipairs(flying_logs) do
-    --     flying_log.timer = flying_log.timer + delta_time
-    --     if flying_log.timer > 1.3 then
-    --         table.remove(flying_logs, index)
-    --     end
-    -- end
-    --
     if nuts_timer <= 0 and savegame.get_nuts(persisted_state) > 0 then
         if math.random() < 0.003 then
             nuts_timer = 1
@@ -100,30 +93,6 @@ game.draw = function()
 
     tree.draw(logs)
 
-    -- for index, flying_log in ipairs(flying_logs) do
-    --     local log_image = log_blank
-    --     local scale_x = 1
-    --     if flying_log.type == 'right' then
-    --         log_image = log_right
-    --     elseif flying_log.type == 'left' then
-    --         log_image = log_right
-    --         scale_x = -1
-    --     end
-    --
-    --     local flying_direction = 1
-    --
-    --     if flying_log.direction == 'left' then
-    --         flying_direction = -1
-    --     end
-    --
-    --     local position_x = 400 + (flying_log.timer * 1000 * flying_direction)
-    --     local position_y = 400 - (flying_log.timer * 300 - flying_log.timer * flying_log.timer * flying_log.timer * 100)
-    --     local rotate = flying_log.timer * flying_log.rotate * flying_log.rotateSpeed
-    --     love.graphics.setColor(255, 255, 255, (255 * (1 - flying_log.timer /30.3)))
-    --
-    --     love.graphics.draw(log_image, position_x, position_y, rotate, scale_x, 1, log_right:getWidth()/2, 0)
-    -- end
-
     love.graphics.setColor(0, 0, 0)
     love.graphics.print('Score:', 30, 50)
     love.graphics.print(score, 73, 50)
@@ -153,13 +122,6 @@ function chop()
             audioNewHighscore:play()
         end
         death_timer = math.min(death_timer + (1/score), 10)
-        -- table.insert(flying_logs, {
-        --     timer = 0,
-        --     type = logs[1],
-        --     direction = (position == "right" and "left" or "right"),
-        --     rotate = (math.random() > 0.5 and 1 or -1),
-        --     rotateSpeed = math.random(0.5,10)
-        -- })
     end
 end
 
