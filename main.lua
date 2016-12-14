@@ -4,7 +4,7 @@ game_over_state = require('./src/game_over_state')
 main_menu = require('./src/main_menu')
 coins = require('./src/coins')
 
-local persisted_state = savegame.load()
+persisted_state = savegame.load()
 current_state = main_menu
 
 local function new_high_score(name, new_score)
@@ -20,9 +20,9 @@ function love.load()
     largeFont = love.graphics.newFont(40)
     love.graphics.setFont(normalFont)
 
-    game_over_state.load(new_high_score, persisted_state)
-    game.load(new_high_score, persisted_state)
-    coins.load(persisted_state)
+    game_over_state.load(new_high_score)
+    game.load(new_high_score)
+    coins.load()
     main_menu.load()
 
     game.restart()
