@@ -6,5 +6,5 @@
 - implement skins [rafael]
 - chopping particles [HO]
 - kleeblatt multiplikativ + kosten exponentiell [kim]
-- eichhï¿½rnchen auf ï¿½ste setzen [kim]
-- versionierung fÃ¼r savegames [kim]
+- eichhörnchen auf äste setzen [kim]
+- versionierung im savegame einfügen [kim]
