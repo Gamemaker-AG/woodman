@@ -9,7 +9,6 @@ local score = 0
 local chopwood_audio
 local audioNewHighscore
 local nuts_timer
-local persisted_state
 local score_change_callback
 local logs
 
@@ -23,9 +22,8 @@ game.restart = function()
     nuts_timer = 0
 end
 
-game.load = function(callback, state)
+game.load = function(callback)
     score_change_callback = callback
-    persisted_state = state
     man = love.graphics.newImage('assets/img/man.png')
     man2 = love.graphics.newImage('assets/img/man2.png')
     audioNewHighscore = love.audio.newSource('assets/sounds/improved_highscore.mp3', 'static')
