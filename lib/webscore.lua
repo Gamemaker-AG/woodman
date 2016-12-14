@@ -23,7 +23,7 @@ webscore.sendScore = function(score, name)
         print("saved")
         return true
     else
-        print("not saved")
+        print("not saved: " .. code)
         return false
     end
 end
