@@ -6,3 +6,4 @@
 - chopping particles [HO]
 - kleeblatt multiplikativ + kosten exponentiell [kim]
 - eichhörnchen auf äste setzen [kim]
+- versionierung im savegame einfügen [kim]
