@@ -11,6 +11,7 @@ local audioNewHighscore
 local nuts_timer
 local score_change_callback
 local logs
+local position
 
 game.restart = function()
     score = 0
@@ -39,6 +40,8 @@ game.update = function(delta_time)
     if death_timer <= 0 then
         show_game_over_state()
     end
+
+    tree.update(logs, delta_time)
 
     if nuts_timer <= 0 and savegame.get_nuts(persisted_state) > 0 then
         if math.random() < 0.003 then
@@ -111,7 +114,7 @@ function chop()
     if tree.is_legal_move(logs, position) then
         show_game_over_state()
     else
-        tree.chop(logs)
+        tree.chop(logs, position)
         chop_timer = 0
         score = score + 1
         if score % 10 == 0 then

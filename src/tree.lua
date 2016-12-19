@@ -1,5 +1,6 @@
 local util = require('src/util')
 
+local splinter
 local tree = {}
 
 local images = {
@@ -10,6 +11,7 @@ local images = {
 local level_length = 4
 
 function tree.load()
+    splinter = love.graphics.newImage('assets/img/particles/splinter.png')
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_1.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_2.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_3.png'))
@@ -19,13 +21,39 @@ end
 function tree.generate_initial_level()
     local new_level = {
         logs={tree.new_log('blank')},
-        emitters={}
+        emitters=tree.initialize_emitters()
     }
     for i = 1, level_length, 1 do
         table.insert(new_level.logs, tree.generate_log(new_level))
     end
 
     return new_level
+end
+
+function tree.initialize_emitters()
+    local emitters = {}
+    emitter = love.graphics.newParticleSystem(splinter, 35)
+    emitter:setDirection(4)
+    emitter:setAreaSpread("normal", 5, 1)
+    emitter:setEmissionRate(70)
+    emitter:setEmitterLifetime(0.1)
+    emitter:setLinearAcceleration(0, 800, 0, 1000)
+    emitter:setParticleLifetime(0.1, 0.5)
+    emitter:setRadialAcceleration(22, 5)
+    emitter:setRotation(-1.7, 2.7)
+    emitter:setTangentialAcceleration(0, 0)
+    emitter:setSpeed(300, 200)
+    emitter:setSpin(21, 7)
+    emitter:setSpinVariation(0)
+    emitter:setLinearDamping(0, 0)
+    emitter:setSpread(0)
+    emitter:setRelativeRotation(false)
+    emitter:setOffset(10, 10)
+    emitter:setSizes(1, 1)
+    emitter:setSizeVariation(1)
+    emitter:setColors(139, 90, 43, 255)
+    table.insert(emitters, emitter)
+    return emitters
 end
 
 function tree.new_log(type, direction)
@@ -52,7 +80,7 @@ function tree.generate_log(data)
             return tree.new_log('blank')
         else
             local last_log = data.logs[#data.logs]
-            return tree.new_log(last_log.type, last_log.direction
+            return tree.new_log(last_log.type, last_log.direction)
         end
     end
 end
@@ -87,10 +115,31 @@ function tree.draw(data)
             )
         end
     end
+    for _, system in ipairs(data.emitters) do
+        love.graphics.draw(
+            system,
+            love.graphics.getWidth()/2,
+            love.graphics.getHeight() - images.blank[1]:getHeight()
+        )
+    end
 end
 
-function tree.chop(data)
+function tree.update(data, dt)
+    for _, system in ipairs(data.emitters) do
+        system:update(dt)
+    end
+end
+
+function tree.chop(data, side)
     table.insert(data.logs, tree.generate_log(data))
+    for _, system in ipairs(data.emitters) do
+        if side == "left" then
+            emitter:setDirection(-1 * (math.pi * 0.25))
+        else
+            emitter:setDirection(-1 * (math.pi * 0.75))
+        end
+        system:start()
+    end
     table.remove(data.logs, 1)
 end
 
