@@ -12,7 +12,6 @@ local nuts_timer
 local score_change_callback
 local logs
 local player_data
-local position
 
 game.restart = function()
     score = 0
@@ -91,7 +90,7 @@ function chop()
         show_game_over_state()
     else
         player.chop(player_data)
-        tree.chop(logs, position)
+        tree.chop(logs, player.get_side(player_data))
 
         chop_timer = 0
         score = score + 1
