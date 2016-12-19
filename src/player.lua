@@ -35,15 +35,15 @@ end
 function player.draw(data)
     local man_x
     local middle = love.graphics.getWidth()/2
-    local offset = 200
+    local offset = 150
     if data.side == 'right' then
         man_x = middle + offset
     else
         man_x = middle - offset
     end
 
-    local scale = 0.85
-    local draw_args = {man_x, love.graphics:getHeight() - 100, 0, scale, scale, 200, 400}
+    local scale = 0.9
+    local draw_args = {man_x, love.graphics:getHeight() - 120, 0, scale, scale, 200, 400}
     data.player_animation:draw(player_spritesheet, unpack(draw_args))
     data.tool_animation:draw(tool_spritesheets[data.current_tool], unpack(draw_args))
 end
