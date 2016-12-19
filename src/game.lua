@@ -1,9 +1,9 @@
 local savegame = require('src/savegame')
 local tree = require('src/tree')
+local player = require('src/player')
+
 game = {}
 
-local man
-local man2
 local squirrel
 local score = 0
 local chopwood_audio
@@ -11,29 +11,27 @@ local audioNewHighscore
 local nuts_timer
 local score_change_callback
 local logs
+local player_data
 
 game.restart = function()
     score = 0
-    chop_timer = 1
-    position = 'right'
     death_timer = 10
     game_over = false
     logs = tree.generate_initial_level()
+    player_data = player.new()
     nuts_timer = 0
 end
 
 game.load = function(callback)
     score_change_callback = callback
-    man = love.graphics.newImage('assets/img/man.png')
-    man2 = love.graphics.newImage('assets/img/man2.png')
     audioNewHighscore = love.audio.newSource('assets/sounds/improved_highscore.mp3', 'static')
     squirrel = love.graphics.newImage('assets/img/squirrel.png')
     chopwood_audio = love.audio.newSource('assets/sounds/chop_wood.mp3', 'static')
     tree.load()
+    player.load()
 end
 
 game.update = function(delta_time)
-    chop_timer = chop_timer + delta_time
     death_timer = death_timer - delta_time
 
     if death_timer <= 0 then
@@ -49,14 +47,13 @@ game.update = function(delta_time)
     elseif nuts_timer > 0 then
         nuts_timer = nuts_timer - delta_time
     end
+
+    player.update(player_data, delta_time)
 end
 
 game.keypressed = function(key)
-    if key == 'right' then
-        position = 'right'
-        chop()
-    elseif key == 'left' then
-        position = 'left'
+    if key == 'right' or key == 'left' then
+        player.change_side(player_data, key)
         chop()
     elseif key == 'space' then
         if nuts_timer > 0 then
@@ -69,29 +66,8 @@ game.keypressed = function(key)
 end
 
 game.draw = function()
-    man_image = man2
-
-    if chop_timer < 0.1 then
-        man_image = man
-    end
-
-    if position == 'right' then
-        man_x = 700
-        scale_x = 1
-    else
-        man_x = 100
-        scale_x = -1
-    end
-
-    love.graphics.draw(
-        man_image,
-        man_x, 300,
-        0,
-        scale_x, 1,
-        man:getWidth()/2, 0
-    )
-
     tree.draw(logs)
+    player.draw(player_data)
 
     love.graphics.setColor(0, 0, 0)
     love.graphics.print('Score:', 30, 50)
@@ -108,11 +84,11 @@ game.draw = function()
 end
 
 function chop()
-    if tree.is_legal_move(logs, position) then
+    if tree.is_legal_move(logs, player.get_side(player_data)) then
         show_game_over_state()
     else
         tree.chop(logs)
-        chop_timer = 0
+        player.chop(player_data)
         score = score + 1
         if score % 10 == 0 then
             savegame.add_coins(persisted_state, 1)
