@@ -12,6 +12,7 @@ local nuts_timer
 local score_change_callback
 local logs
 local player_data
+local highscore
 
 game.restart = function()
     score = 0
@@ -20,6 +21,7 @@ game.restart = function()
     logs = tree.generate_initial_level()
     player_data = player.new()
     nuts_timer = 0
+    highscore = savegame.getHighscore(persisted_state)
 end
 
 game.load = function(callback)
@@ -99,7 +101,8 @@ function chop()
             savegame.add_coins(persisted_state, 1)
         end
         chopwood_audio:play()
-        if savegame.getHighscore(persisted_state) + 1 == score then
+
+        if highscore > 1 and highscore + 1 == score then
             audioNewHighscore:play()
         end
         death_timer = math.min(death_timer + 0.05 + (1/score), 10)

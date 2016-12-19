@@ -8,7 +8,7 @@ savegame.load = function()
     end
     return {
         scores = {
-            {"Nobody", 1}
+            {"Nobody", 0}
         },
         collected_coins = 60,
         bought_cloverleaf = 0,
