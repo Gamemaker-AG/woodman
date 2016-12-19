@@ -21,7 +21,8 @@ end
 function tree.generate_initial_level()
     local new_level = {
         logs={tree.new_log('blank')},
-        emitters=tree.initialize_emitters()
+        emitters=tree.initialize_emitters(),
+        gap = 0
     }
     for i = 1, level_length, 1 do
         table.insert(new_level.logs, tree.generate_log(new_level))
@@ -100,7 +101,7 @@ function tree.draw(data)
             scale_x = -1
         end
 
-        local y_pos = love.graphics.getHeight() - (index * (log_image:getHeight() - 5))
+        local y_pos = love.graphics.getHeight() - (index * (log_image:getHeight() - 5)) - data.gap
 
         love.graphics.draw(
             log_image,
@@ -134,6 +135,7 @@ function tree.update(data, dt)
     for _, system in ipairs(data.emitters) do
         system:update(dt)
     end
+    data.gap = math.max(0, data.gap - (dt * 1200))
 end
 
 function tree.chop(data, side)
@@ -149,6 +151,7 @@ function tree.chop(data, side)
         emitter:start()
     end
     table.remove(data.logs, 1)
+    data.gap = log_image:getHeight()
 end
 
 function tree.is_legal_move(data, side)
