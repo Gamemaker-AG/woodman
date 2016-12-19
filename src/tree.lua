@@ -40,11 +40,11 @@ function tree.initialize_emitters()
     emitter:setEmissionRate(60)
     emitter:setEmitterLifetime(0.1)
     emitter:setLinearAcceleration(0, 800, 0, 1000)
-    emitter:setParticleLifetime(0.1, 0.8)
+    emitter:setParticleLifetime(0.05, 0.4)
     emitter:setRadialAcceleration(5, 22)
     emitter:setRotation(-1.7, 2.7)
     emitter:setTangentialAcceleration(0, 0)
-    emitter:setSpeed(200, 1000)
+    emitter:setSpeed(800, 2000)
     emitter:setLinearDamping(0, 0)
     emitter:setSpread(math.pi/3)
     emitter:setRelativeRotation(false)
@@ -128,7 +128,7 @@ function tree.draw(data)
         love.graphics.draw(
             system,
             love.graphics.getWidth()/2,
-            love.graphics.getHeight() - images.blank[1]:getHeight()
+            love.graphics.getHeight() - (images.blank[1]:getHeight() / 2)
         )
     end
 
