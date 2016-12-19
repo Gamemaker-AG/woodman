@@ -102,7 +102,7 @@ function chop()
         if savegame.getHighscore(persisted_state) + 1 == score then
             audioNewHighscore:play()
         end
-        death_timer = math.min(death_timer + (1/score), 10)
+        death_timer = math.min(death_timer + 0.05 + (1/score), 10)
     end
 end
 
