@@ -128,7 +128,7 @@ function tree.draw(data)
         love.graphics.draw(
             system,
             love.graphics.getWidth()/2,
-            love.graphics.getHeight() - (images.blank[1]:getHeight() / 2)
+            love.graphics.getHeight() - 200 - (images.blank[1]:getHeight() / 2)
         )
     end
 
