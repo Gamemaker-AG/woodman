@@ -42,8 +42,8 @@ function player.draw(data)
         man_x = middle - offset
     end
 
-    local scale = 0.7
-    local draw_args = {man_x, love.graphics:getHeight(), 0, scale, scale, 200, 400}
+    local scale = 0.85
+    local draw_args = {man_x, love.graphics:getHeight() - 100, 0, scale, scale, 200, 400}
     data.player_animation:draw(player_spritesheet, unpack(draw_args))
     data.tool_animation:draw(tool_spritesheets[data.current_tool], unpack(draw_args))
 end

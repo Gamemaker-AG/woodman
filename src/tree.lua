@@ -1,6 +1,7 @@
 local util = require('src/util')
 
 local splinter
+local base_img
 local tree = {}
 
 local images = {
@@ -12,6 +13,7 @@ local level_length = 4
 
 function tree.load()
     splinter = love.graphics.newImage('assets/img/particles/splinter.png')
+    base_img = love.graphics.newImage('assets/img/tree/base.png')
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_1.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_2.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_3.png'))
@@ -101,7 +103,7 @@ function tree.draw(data)
             scale_x = -1
         end
 
-        local y_pos = love.graphics.getHeight() - (index * (log_image:getHeight() - 5)) - data.gap
+        local y_pos = love.graphics.getHeight() - (index * (log_image:getHeight() - 5)) - data.gap - 200
 
         love.graphics.draw(
             log_image,
@@ -129,13 +131,20 @@ function tree.draw(data)
             love.graphics.getHeight() - images.blank[1]:getHeight()
         )
     end
+
+    love.graphics.draw(base_img,
+        love.graphics.getWidth()/2, love.graphics.getHeight() - 200,
+        0,
+        1, 1,
+        base_img:getWidth()/2, 0
+    )
 end
 
 function tree.update(data, dt)
     for _, system in ipairs(data.emitters) do
         system:update(dt)
     end
-    data.gap = math.max(0, data.gap - (dt * 1200))
+    data.gap = math.max(0, data.gap - (dt * 2000))
 end
 
 function tree.chop(data, side)
