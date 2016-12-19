@@ -1,5 +1,6 @@
 local util = require('src/util')
 
+local splinter
 local tree = {}
 
 local images = {
@@ -10,6 +11,7 @@ local images = {
 local level_length = 4
 
 function tree.load()
+    splinter = love.graphics.newImage('assets/img/particles/splinter.png')
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_1.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_2.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_3.png'))
@@ -17,12 +19,41 @@ function tree.load()
 end
 
 function tree.generate_initial_level()
-    local new_level = {tree.new_log('blank')}
+    local new_level = {
+        logs={tree.new_log('blank')},
+        emitters=tree.initialize_emitters()
+    }
     for i = 1, level_length, 1 do
-        table.insert(new_level, tree.generate_log(new_level))
+        table.insert(new_level.logs, tree.generate_log(new_level))
     end
 
     return new_level
+end
+
+function tree.initialize_emitters()
+    local emitters = {}
+    emitter = love.graphics.newParticleSystem(splinter, 35)
+    emitter:setDirection(4)
+    emitter:setAreaSpread("normal", 5, 1)
+    emitter:setEmissionRate(70)
+    emitter:setEmitterLifetime(0.1)
+    emitter:setLinearAcceleration(0, 800, 0, 1000)
+    emitter:setParticleLifetime(0.1, 0.5)
+    emitter:setRadialAcceleration(22, 5)
+    emitter:setRotation(-1.7, 2.7)
+    emitter:setTangentialAcceleration(0, 0)
+    emitter:setSpeed(300, 200)
+    emitter:setSpin(21, 7)
+    emitter:setSpinVariation(0)
+    emitter:setLinearDamping(0, 0)
+    emitter:setSpread(0)
+    emitter:setRelativeRotation(false)
+    emitter:setOffset(10, 10)
+    emitter:setSizes(1, 1)
+    emitter:setSizeVariation(1)
+    emitter:setColors(139, 90, 43, 255)
+    table.insert(emitters, emitter)
+    return emitters
 end
 
 function tree.new_log(type, direction)
@@ -37,9 +68,9 @@ function tree.new_log(type, direction)
     return log
 end
 
-function tree.generate_log(logs)
-    if logs[#logs].type == 'blank' then
-        if logs[#logs-1] and logs[#logs-1].direction == 'right' then
+function tree.generate_log(data)
+    if data.logs[#data.logs].type == 'blank' then
+        if data.logs[#data.logs-1] and data.logs[#data.logs-1].direction == 'right' then
             return tree.new_log('branch', 'left')
         else
             return tree.new_log('branch', 'right')
@@ -48,15 +79,15 @@ function tree.generate_log(logs)
         if love.math.random() < 0.5 then
             return tree.new_log('blank')
         else
-            local last_log = logs[#logs]
+            local last_log = data.logs[#data.logs]
             return tree.new_log(last_log.type, last_log.direction)
         end
     end
 end
 
-function tree.draw(logs)
+function tree.draw(data)
     love.graphics.setColor(255, 255, 255, 255)
-    for index, log in ipairs(logs) do
+    for index, log in ipairs(data.logs) do
         log_image = images['blank'][log.index]
         scale_x = 1
         if log.direction == 'left' then
@@ -84,15 +115,36 @@ function tree.draw(logs)
             )
         end
     end
+    for _, system in ipairs(data.emitters) do
+        love.graphics.draw(
+            system,
+            love.graphics.getWidth()/2,
+            love.graphics.getHeight() - images.blank[1]:getHeight()
+        )
+    end
 end
 
-function tree.chop(logs)
-    table.insert(logs, tree.generate_log(logs))
-    table.remove(logs, 1)
+function tree.update(data, dt)
+    for _, system in ipairs(data.emitters) do
+        system:update(dt)
+    end
 end
 
-function tree.is_legal_move(logs, side)
-    return logs[1].direction == side or logs[2].direction == side
+function tree.chop(data, side)
+    table.insert(data.logs, tree.generate_log(data))
+    for _, system in ipairs(data.emitters) do
+        if side == "left" then
+            emitter:setDirection(-1 * (math.pi * 0.25))
+        else
+            emitter:setDirection(-1 * (math.pi * 0.75))
+        end
+        system:start()
+    end
+    table.remove(data.logs, 1)
+end
+
+function tree.is_legal_move(data, side)
+    return data.logs[1].direction == side or data.logs[2].direction == side
 end
 
 return tree
