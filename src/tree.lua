@@ -32,27 +32,33 @@ end
 
 function tree.initialize_emitters()
     local emitters = {}
-    emitter = love.graphics.newParticleSystem(splinter, 35)
-    emitter:setDirection(4)
-    emitter:setAreaSpread("normal", 5, 1)
-    emitter:setEmissionRate(70)
+    local emitter = love.graphics.newParticleSystem(splinter, 35)
+    emitter:setAreaSpread("normal", 20, 10)
+    emitter:setEmissionRate(60)
     emitter:setEmitterLifetime(0.1)
     emitter:setLinearAcceleration(0, 800, 0, 1000)
-    emitter:setParticleLifetime(0.1, 0.5)
-    emitter:setRadialAcceleration(22, 5)
+    emitter:setParticleLifetime(0.1, 0.8)
+    emitter:setRadialAcceleration(5, 22)
     emitter:setRotation(-1.7, 2.7)
     emitter:setTangentialAcceleration(0, 0)
-    emitter:setSpeed(300, 200)
-    emitter:setSpin(21, 7)
-    emitter:setSpinVariation(0)
+    emitter:setSpeed(200, 1000)
     emitter:setLinearDamping(0, 0)
-    emitter:setSpread(0)
+    emitter:setSpread(math.pi/3)
     emitter:setRelativeRotation(false)
     emitter:setOffset(10, 10)
-    emitter:setSizes(1, 1)
+    emitter:setSizes(3)
     emitter:setSizeVariation(1)
-    emitter:setColors(139, 90, 43, 255)
+    emitter:setColors(100, 68, 22, 255, 100, 68, 22, 0)
     table.insert(emitters, emitter)
+
+    local emitter = emitter:clone()
+    emitter:setSizes(1)
+    table.insert(emitters, emitter)
+
+    local emitter = emitter:clone()
+    emitter:setSizes(2)
+    table.insert(emitters, emitter)
+
     return emitters
 end
 
@@ -132,13 +138,15 @@ end
 
 function tree.chop(data, side)
     table.insert(data.logs, tree.generate_log(data))
-    for _, system in ipairs(data.emitters) do
+    local middle = -math.pi/2
+    local tilt = math.pi/3
+    for _, emitter in ipairs(data.emitters) do
         if side == "left" then
-            emitter:setDirection(-1 * (math.pi * 0.25))
+            emitter:setDirection(middle + tilt)
         else
-            emitter:setDirection(-1 * (math.pi * 0.75))
+            emitter:setDirection(middle - tilt)
         end
-        system:start()
+        emitter:start()
     end
     table.remove(data.logs, 1)
 end
