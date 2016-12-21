@@ -8,6 +8,7 @@ local squirrel
 local score = 0
 local chopwood_audio
 local audioNewHighscore
+local audioCoins
 local nuts_timer
 local score_change_callback
 local logs
@@ -29,6 +30,7 @@ game.load = function(callback)
     audioNewHighscore = love.audio.newSource('assets/sounds/improved_highscore.mp3', 'static')
     squirrel = love.graphics.newImage('assets/img/squirrel.png')
     chopwood_audio = love.audio.newSource('assets/sounds/chop_wood.mp3', 'static')
+    coins_audio = love.audio.newSource('assets/sounds/coins.mp3', 'static')
     tree.load()
     player.load()
 end
@@ -100,6 +102,7 @@ function chop()
         score = score + 1
 
         if score % 10 == 0 then
+            coins_audio:play()
             savegame.add_coins(persisted_state, 1)
         end
         chopwood_audio:play()
