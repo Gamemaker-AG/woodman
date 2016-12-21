@@ -85,7 +85,7 @@ function tree.generate_log(data)
             return tree.new_log('branch', 'right')
         end
     else
-        if love.math.random() < 0.5 then
+        if love.math.random() < 0.5 * math.pow(0.9, savegame.get_cloverleaf(persisted_state)) then
             return tree.new_log('blank')
         else
             local last_log = data.logs[#data.logs]

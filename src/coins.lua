@@ -13,7 +13,7 @@ coins.load = function()
     img = kleeblatt_img,
     header = 'Kleeblatt',
     getFunction = savegame.get_cloverleaf,
-    cost = 20,
+    cost = math.floor(15 * math.pow(1.2, savegame.get_cloverleaf(persisted_state))),
     text = 'Das Kleeblatt erhöht dein Glück!\n(Äste tauchen häufiger auf derselben Seite auf)'
   })
   table.insert(items, {
@@ -21,7 +21,7 @@ coins.load = function()
     img = nut_img,
     header = 'Nuss',
     getFunction = savegame.get_nuts,
-    cost = 10,
+    cost = 0,
     text = 'Die Nuss lockt Eichhörnchen an, die zusätzliche Punkte geben!\nJede Nuss lockt 3 Eichhörnchen an.\nUm ein Eichhörnchen zu töten, drücke Space.'
   })
   table.insert(items, {
@@ -36,23 +36,23 @@ coins.draw = function()
   love.graphics.setFont(semiLargeFont)
   love.graphics.print('Coins: ' .. savegame.getCoins(persisted_state), 20, 10)
   love.graphics.setFont(normalFont)
-  for index, item in ipairs(items) do
-    if item.typ == 'upgrade' then
+  for index, list in ipairs(items) do
+    if list.typ == 'upgrade' then
       love.graphics.setColor(255, 255, 255)
-      love.graphics.draw(item.img, 20, index*125-70)
+      love.graphics.draw(list.img, 20, index*125-70)
     end
     love.graphics.setColor(0, 0, 0)
     if(item_marked == index) then
       love.graphics.setFont(semiLargeFont)
-      love.graphics.print(item.header, 140, index*125-40)
+      love.graphics.print(list.header, 140, index*125-40)
     else
-      love.graphics.print(item.header, 140, index*125-30)
+      love.graphics.print(list.header, 140, index*125-30)
     end
     love.graphics.setFont(normalFont)
-    if item.typ == 'upgrade' then
-      love.graphics.print('Du hast ' .. item.getFunction(persisted_state), 140, index*125-10)
-      love.graphics.print(item.cost .. ' Coins', 260, index*125-30)
-      love.graphics.print(item.text, 330, index*125-40)
+    if list.typ == 'upgrade' then
+      love.graphics.print('Du hast ' .. list.getFunction(persisted_state), 140, index*125-10)
+      love.graphics.print(list.cost .. ' Coins', 260, index*125-30)
+      love.graphics.print(list.text, 330, index*125-40)
     end
   end
 end
