@@ -41,6 +41,10 @@ game_over_state.draw = function()
     else
         love.graphics.draw(pwnd_image, 0, 0)
         love.graphics.setColor(0, 0, 0)
+        love.graphics.setFont(semiLargeFont)
+        love.graphics.print('Your Score: ' .. game.getScore(), love.graphics.getWidth()/2-50, love.graphics.getHeight()-250)
+        love.graphics.print('Current Highscore: ' .. savegame.getHighscore(persisted_state), love.graphics.getWidth()/2-90, love.graphics.getHeight()-200)
+        love.graphics.setFont(normalFont)
     end
 
     love.graphics.setColor(255, 255, 255)
