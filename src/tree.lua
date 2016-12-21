@@ -133,7 +133,7 @@ function tree.draw(data)
     end
 
     love.graphics.draw(base_img,
-        love.graphics.getWidth()/2, love.graphics.getHeight() - 200,
+        love.graphics.getWidth()/2 - 5, love.graphics.getHeight() - 200,
         0,
         1, 1,
         base_img:getWidth()/2, 0

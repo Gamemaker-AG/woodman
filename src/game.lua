@@ -84,8 +84,8 @@ game.draw = function()
     else
         love.graphics.print(score, 73, 50)
     end
-    love.graphics.print('Highscore:', 680, 50)
-    love.graphics.print(savegame.getPrettyHighscore(persisted_state), 680, 70)
+    love.graphics.print('Highscore:', love.graphics.getWidth() - 100, 50)
+    love.graphics.print(savegame.getPrettyHighscore(persisted_state), love.graphics.getWidth() - 100, 70)
 
     love.graphics.rectangle('line', 30, 80, 100 * (death_timer/10), 20)
 

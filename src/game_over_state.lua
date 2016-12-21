@@ -7,14 +7,12 @@ local new_highscore
 local player_name
 local audio_game_over
 local audio_highscore
-local coin_state_button
 local new_score_callback
 
 game_over_state.load = function(callback)
     new_score_callback = callback
     pwnd_image = love.graphics.newImage('assets/img/pwnd.png')
     new_highscore = love.graphics.newImage('assets/img/new_highscore.png')
-    coin_state_button = love.graphics.newImage('assets/img/coins.png')
     audio_game_over = love.audio.newSource('assets/sounds/game_over.mp3')
     audio_highscore = love.audio.newSource('assets/sounds/highscore.mp3')
 end
@@ -47,8 +45,6 @@ game_over_state.draw = function()
         love.graphics.setFont(normalFont)
     end
 
-    love.graphics.setColor(255, 255, 255)
-    love.graphics.draw(coin_state_button, 530, 550)
     love.graphics.setColor(0, 0, 0)
     love.graphics.print('(press return to continue)', love.graphics.getWidth()/2-80, love.graphics.getHeight()-40)
 end
