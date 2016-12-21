@@ -4,4 +4,6 @@
 
 ## Work in progress
 - implement skins [rafael]
-- eichh�rnchen auf �ste setzen [kim]
+- eichhörnchen auf äste setzen [kim]
+- kleeblatt-kosten werden nur bei spielstart geladen [kim]
+- savegame asynchron
