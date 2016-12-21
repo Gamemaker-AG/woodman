@@ -12,7 +12,8 @@ savegame.load = function()
         },
         collected_coins = 60,
         bought_cloverleaf = 0,
-        bought_nuts = 0
+        bought_nuts = 0,
+        version = 1
     }
 end
 
@@ -76,6 +77,10 @@ end
 
 savegame.get_cloverleaf = function(state)
     return state.bought_cloverleaf
+end
+
+savegame.get_version = function(state)
+    return state.version
 end
 
 return savegame

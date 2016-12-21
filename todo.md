@@ -9,4 +9,4 @@
 - implement skins [rafael]
 - chopping particles [HO]
 - eichh�rnchen auf �ste setzen [kim]
-- versionierung im savegame einf�gen [kim]
+- versionierung im savegame einfügen [kim]

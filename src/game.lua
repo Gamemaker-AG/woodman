@@ -82,8 +82,10 @@ game.draw = function()
     love.graphics.rectangle('line', 100, 50, 100 * (death_timer/10), 20)
 
     if nuts_timer > 0 then
-        love.graphics.setColor(255, 255, 255)
-        love.graphics.draw(squirrel, 691, 0)
+        --love.graphics.setColor(255, 255, 255)
+        --love.graphics.draw(squirrel, 691, 0)
+        love.graphics.setColor(0, 0, 0)
+        love.graphics.print('test', 0, 0)
     end
 end
 

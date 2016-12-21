@@ -13,6 +13,7 @@ function main_menu.keypressed(key)
 end
 
 function main_menu.draw()
+    love.graphics.setColor(255, 255, 255)
     love.graphics.draw(bg, 0, 0)
     love.graphics.setColor(0, 0, 0)
     love.graphics.print('Press enter to play', 50, love.graphics.getHeight()-50)

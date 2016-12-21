@@ -21,7 +21,7 @@ coins.load = function()
     img = nut_img,
     header = 'Nuss',
     getFunction = savegame.get_nuts,
-    cost = 0,
+    cost = 10,
     text = 'Die Nuss lockt Eichhörnchen an, die zusätzliche Punkte geben!\nJede Nuss lockt 3 Eichhörnchen an.\nUm ein Eichhörnchen zu töten, drücke Space.'
   })
   table.insert(items, {
