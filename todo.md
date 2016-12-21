@@ -5,4 +5,6 @@
 - tree sliding animations [rafael]
 - implement skins [rafael]
 - chopping particles [HO]
-- eichh�rnchen auf �ste setzen [kim]
+- eichhörnchen auf äste setzen [kim]
+- kleeblatt-kosten werden nur bei spielstart geladen [kim]
+- savegame asynchron
