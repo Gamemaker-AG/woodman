@@ -28,4 +28,16 @@ webscore.sendScore = function(score, name)
     end
 end
 
+webscore.getScores = function()
+    local http = require("socket.http")
+    local json = require("lib/json")
+    local result, statuscode, content = http.request("http://127.0.0.1/getScores")
+    if(statuscode == 200) then
+        local res = json.parse(result)
+        return res
+    else
+        return nil
+    end
+end
+
 return webscore
