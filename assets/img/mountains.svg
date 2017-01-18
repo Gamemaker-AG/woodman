@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.0 r"
-   sodipodi:docname="mountains.svg">
+   sodipodi:docname="mountains.svg"
+   inkscape:export-filename="/home/hansole/src/woodman/assets/img/mountains.png"
+   inkscape:export-xdpi="133.32899"
+   inkscape:export-ydpi="133.32899">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="588.39575"
+     inkscape:cx="514.65461"
      inkscape:cy="-4.2171238"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -54,12 +57,12 @@
      id="layer1"
      transform="translate(0,-127)">
     <path
-       style="fill:#4d4d4d;fill-rule:evenodd;stroke:none;stroke-width:0.36854246px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0.36854246px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m -91.989262,242.89759 c 0,0 54.967448,-46.5049 115.120469,-27.79603 60.15305,18.70886 100.600773,19.77794 100.600773,19.77794 0,0 117.19466,-49.17759 197.05301,-3.74177 79.85833,45.43582 -146.2341,93.00979 -146.2341,93.00979 L -138.6597,318.2676 Z"
        id="path5038"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#28170b;fill-rule:evenodd;stroke:#000000;stroke-width:0.2456544px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.2456544px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 48.606902,207.07044 c 0,0 43.66097,-52.16071 98.074258,-3.02381 54.4133,49.1369 91.55771,12.47321 91.55771,12.47321 0,0 74.28881,-77.48511 82.76035,-43.08928 8.47154,34.39583 7.49404,124.73214 7.49404,124.73214 H -11.997126 l 9.1231808,-47.24702 z"
        id="path5036"
        inkscape:connector-curvature="0" />

@@ -77,12 +77,14 @@ end
 
 local function draw_background(time)
     shader = love.graphics.newShader("sunset.glsl")
+    love.graphics.setColor(0, 0, 0)
     shader:send("time", time)
     love.graphics.setShader(shader)
     love.graphics.rectangle('fill', 0, 0, 1000, 1000)
     love.graphics.setShader()
     
     local h = love.graphics.getHeight()
+    love.graphics.setColor(100, 160, 120)
     love.graphics.draw(mountains, 0, h -  mountains:getHeight() + 200)
 end
 
