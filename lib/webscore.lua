@@ -1,4 +1,5 @@
 local webscore = {}
+local url = "http://127.0.0.1:8080";
 
 webscore.sendScore = function(score, name)
     local http = require('socket.http')
@@ -8,7 +9,7 @@ webscore.sendScore = function(score, name)
 
     local res, code, response_headers, status = http.request
     {
-        url = "http://127.0.0.1",
+        url = url,
         method = "POST",
         headers =
             {
@@ -31,7 +32,7 @@ end
 webscore.getScores = function()
     local http = require("socket.http")
     local json = require("lib/json")
-    local result, statuscode, content = http.request("http://127.0.0.1/getScores")
+    local result, statuscode, content = http.request(url .. "/getScores")
     if(statuscode == 200) then
         local res = json.parse(result)
         return res
