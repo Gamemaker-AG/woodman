@@ -10,10 +10,12 @@ local chopwood_audio
 local audioNewHighscore
 local audioCoins
 local nuts_timer
+local time
 local score_change_callback
 local logs
 local player_data
 local highscore
+local mountains
 
 game.restart = function()
     score = 0
@@ -22,6 +24,7 @@ game.restart = function()
     logs = tree.generate_initial_level()
     player_data = player.new()
     nuts_timer = 0
+    time = 0
     highscore = savegame.getHighscore(persisted_state)
 end
 
@@ -29,6 +32,7 @@ game.load = function(callback)
     score_change_callback = callback
     audioNewHighscore = love.audio.newSource('assets/sounds/improved_highscore.mp3', 'static')
     squirrel = love.graphics.newImage('assets/img/squirrel.png')
+    mountains = love.graphics.newImage('assets/img/mountains.png')
     chopwood_audio = love.audio.newSource('assets/sounds/chop_wood.mp3', 'static')
     coins_audio = love.audio.newSource('assets/sounds/coins.mp3', 'static')
     tree.load()
@@ -37,7 +41,7 @@ end
 
 game.update = function(delta_time)
     death_timer = death_timer - delta_time
-
+    time = time + delta_time
     if death_timer <= 0 then
         show_game_over_state()
     end
@@ -71,7 +75,20 @@ game.keypressed = function(key)
     end
 end
 
+local function draw_background(time)
+    shader = love.graphics.newShader("sunset.glsl")
+    shader:send("time", time)
+    love.graphics.setShader(shader)
+    love.graphics.rectangle('fill', 0, 0, 1000, 1000)
+    love.graphics.setShader()
+    
+    local h = love.graphics.getHeight()
+    love.graphics.draw(mountains, 0, h -  mountains:getHeight() + 200)
+end
+
 game.draw = function()
+    draw_background(time)
+    
     tree.draw(logs)
     player.draw(player_data)
 
@@ -88,6 +105,7 @@ game.draw = function()
     love.graphics.print(savegame.getPrettyHighscore(persisted_state), love.graphics.getWidth() - 100, 70)
 
     love.graphics.rectangle('line', 30, 80, 100 * (death_timer/10), 20)
+
 
     if nuts_timer > 0 then
         --love.graphics.setColor(255, 255, 255)
