@@ -11,6 +11,9 @@ local images = {
 
 local level_length = 3
 
+local logs_on_screen = 8
+local tree_scale, log_image_height
+
 function tree.load()
     splinter = love.graphics.newImage('assets/img/particles/splinter.png')
     base = love.graphics.newImage('assets/img/tree/base.png')
@@ -19,6 +22,7 @@ function tree.load()
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_2.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_3.png'))
     table.insert(images.branch, love.graphics.newImage('assets/img/tree/branch_1.png'))
+    log_image_height = images.blank[1]:getHeight()
 end
 
 function tree.generate_initial_level()
@@ -69,11 +73,11 @@ end
 function tree.new_log(type, direction)
     local log = {
         type = type,
-        index = util.random_index(images['blank']),
+        index = util.random_index(images.blank),
         direction = direction
     }
     if type == 'branch' then
-        log.branch_index = util.random_index(images['branch'])
+        log.branch_index = util.random_index(images.branch)
     end
     return log
 end
@@ -97,13 +101,14 @@ end
 
 function tree.draw(data)
     love.graphics.setColor(255, 255, 255, 255)
+    tree_scale = love.graphics.getHeight() / (logs_on_screen * images.blank[1]:getWidth())
 
-    local canopy_y = love.graphics.getHeight() - #data.logs * images['blank'][1]:getHeight() - 200
+    local canopy_y = love.graphics.getHeight() - (#data.logs * log_image_height + 200) * tree_scale
     love.graphics.draw(
       canopy,
       love.graphics.getWidth()/2, canopy_y,
       0,
-      1, 1,
+      tree_scale, tree_scale,
       canopy:getWidth()/2, canopy:getHeight()
     )
 
@@ -114,13 +119,13 @@ function tree.draw(data)
             scale_x = -1
         end
 
-        local y_pos = love.graphics.getHeight() - (index * log_image:getHeight()) - data.gap - 200
+        local y_pos = love.graphics.getHeight() - ((index * log_image:getHeight() + 200) * tree_scale) - data.gap
 
         love.graphics.draw(
             log_image,
             love.graphics.getWidth()/2, y_pos,
             0,
-            scale_x, 1,
+            scale_x * tree_scale, tree_scale,
             log_image:getWidth()/2, 0
         )
 
@@ -128,9 +133,9 @@ function tree.draw(data)
             local branch_image = images['branch'][log.branch_index]
             love.graphics.draw(
                 branch_image,
-                love.graphics.getWidth()/2 + (150 * scale_x), y_pos,
+                love.graphics.getWidth()/2 + (log_image:getWidth() * tree_scale * scale_x), y_pos,
                 0,
-                scale_x, 1,
+                scale_x * tree_scale, tree_scale,
                 branch_image:getWidth()/2, 0
             )
         end
@@ -140,14 +145,14 @@ function tree.draw(data)
         love.graphics.draw(
             system,
             love.graphics.getWidth()/2,
-            love.graphics.getHeight() - 200 - (images.blank[1]:getHeight() / 2)
+            love.graphics.getHeight() - 200 - (log_image_height / 2)
         )
     end
 
     love.graphics.draw(base,
-        love.graphics.getWidth()/2 - 5, love.graphics.getHeight() - 200,
+        love.graphics.getWidth()/2, love.graphics.getHeight() - 200 * tree_scale,
         0,
-        1, 1,
+        tree_scale, tree_scale,
         base:getWidth()/2, 0
     )
 end
@@ -172,7 +177,7 @@ function tree.chop(data, side)
         emitter:start()
     end
     table.remove(data.logs, 1)
-    data.gap = log_image:getHeight()
+    data.gap = log_image_height
 end
 
 function tree.is_legal_move(data, side)
