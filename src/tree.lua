@@ -12,7 +12,7 @@ local images = {
 local level_length = 3
 
 local logs_on_screen = 8
-local tree_scale, log_image_height
+local log_image_height
 
 function tree.load()
     splinter = love.graphics.newImage('assets/img/particles/splinter.png')
@@ -101,14 +101,14 @@ end
 
 function tree.draw(data)
     love.graphics.setColor(255, 255, 255, 255)
-    tree_scale = love.graphics.getHeight() / (logs_on_screen * images.blank[1]:getWidth())
+    game_scale = love.graphics.getHeight() / (logs_on_screen * images.blank[1]:getWidth())
 
-    local canopy_y = love.graphics.getHeight() - (#data.logs * log_image_height + 200) * tree_scale
+    local canopy_y = love.graphics.getHeight() - (#data.logs * log_image_height + 200) * game_scale
     love.graphics.draw(
       canopy,
       love.graphics.getWidth()/2, canopy_y,
       0,
-      tree_scale, tree_scale,
+      game_scale, game_scale,
       canopy:getWidth()/2, canopy:getHeight()
     )
 
@@ -119,13 +119,13 @@ function tree.draw(data)
             scale_x = -1
         end
 
-        local y_pos = love.graphics.getHeight() - ((index * log_image:getHeight() + 200) * tree_scale) - data.gap
+        local y_pos = love.graphics.getHeight() - ((index * log_image:getHeight() + 200) * game_scale) - data.gap
 
         love.graphics.draw(
             log_image,
             love.graphics.getWidth()/2, y_pos,
             0,
-            scale_x * tree_scale, tree_scale,
+            scale_x * game_scale, game_scale,
             log_image:getWidth()/2, 0
         )
 
@@ -133,9 +133,9 @@ function tree.draw(data)
             local branch_image = images['branch'][log.branch_index]
             love.graphics.draw(
                 branch_image,
-                love.graphics.getWidth()/2 + (log_image:getWidth() * tree_scale * scale_x), y_pos,
+                love.graphics.getWidth()/2 + (log_image:getWidth() * game_scale * scale_x), y_pos,
                 0,
-                scale_x * tree_scale, tree_scale,
+                scale_x * game_scale, game_scale,
                 branch_image:getWidth()/2, 0
             )
         end
@@ -150,9 +150,9 @@ function tree.draw(data)
     end
 
     love.graphics.draw(base,
-        love.graphics.getWidth()/2, love.graphics.getHeight() - 200 * tree_scale,
+        love.graphics.getWidth()/2, love.graphics.getHeight() - 200 * game_scale,
         0,
-        tree_scale, tree_scale,
+        game_scale, game_scale,
         base:getWidth()/2, 0
     )
 end
