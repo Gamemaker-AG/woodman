@@ -1,7 +1,7 @@
 local util = require('src/util')
 
 local splinter
-local base_img
+local base, canopy
 local tree = {}
 
 local images = {
@@ -9,11 +9,12 @@ local images = {
     branch = {}
 }
 
-local level_length = 4
+local level_length = 3
 
 function tree.load()
     splinter = love.graphics.newImage('assets/img/particles/splinter.png')
-    base_img = love.graphics.newImage('assets/img/tree/base.png')
+    base = love.graphics.newImage('assets/img/tree/base.png')
+    canopy = love.graphics.newImage('assets/img/tree/canopy.png')
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_1.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_2.png'))
     table.insert(images.blank, love.graphics.newImage('assets/img/tree/blank_3.png'))
@@ -96,6 +97,16 @@ end
 
 function tree.draw(data)
     love.graphics.setColor(255, 255, 255, 255)
+
+    local canopy_y = love.graphics.getHeight() - #data.logs * images['blank'][1]:getHeight() - 200
+    love.graphics.draw(
+      canopy,
+      love.graphics.getWidth()/2, canopy_y,
+      0,
+      1, 1,
+      canopy:getWidth()/2, canopy:getHeight()
+    )
+
     for index, log in ipairs(data.logs) do
         log_image = images['blank'][log.index]
         scale_x = 1
@@ -103,7 +114,7 @@ function tree.draw(data)
             scale_x = -1
         end
 
-        local y_pos = love.graphics.getHeight() - (index * (log_image:getHeight() - 5)) - data.gap - 200
+        local y_pos = love.graphics.getHeight() - (index * log_image:getHeight()) - data.gap - 200
 
         love.graphics.draw(
             log_image,
@@ -124,6 +135,7 @@ function tree.draw(data)
             )
         end
     end
+
     for _, system in ipairs(data.emitters) do
         love.graphics.draw(
             system,
@@ -132,11 +144,11 @@ function tree.draw(data)
         )
     end
 
-    love.graphics.draw(base_img,
+    love.graphics.draw(base,
         love.graphics.getWidth()/2 - 5, love.graphics.getHeight() - 200,
         0,
         1, 1,
-        base_img:getWidth()/2, 0
+        base:getWidth()/2, 0
     )
 end
 

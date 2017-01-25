@@ -1,0 +1,11 @@
+helm:
+  ärmel unten
+  schnurrbart
+
+mütze:
+  ärmel oben
+  vollbart
+
+freies haar:
+  mittlerer ärmel
+  kein bart
