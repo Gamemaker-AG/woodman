@@ -80,7 +80,7 @@ console.log(__dirname)
 
 read();
 
-var server = app.listen(8080, function(){
+var server = app.listen(process.env.PORT, function(){
     var host = server.address().address
     var port = server.address().port
 
