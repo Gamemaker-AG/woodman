@@ -80,17 +80,25 @@ local function draw_background(time)
     love.graphics.setColor(0, 0, 0)
     shader:send("time", time)
     love.graphics.setShader(shader)
-    love.graphics.rectangle('fill', 0, 0, 1000, 1000)
+    love.graphics.rectangle('fill', 0, 0, love.graphics:getWidth(), love.graphics:getHeight())
     love.graphics.setShader()
-    
+
     local h = love.graphics.getHeight()
+    local w = love.graphics.getWidth()
     love.graphics.setColor(100, 160, 120)
-    love.graphics.draw(mountains, 0, h -  mountains:getHeight() + 200)
+    local ratio =  mountains:getWidth() / mountains:getHeight()
+    love.graphics.draw(
+        mountains,
+        0,
+        h - mountains:getHeight() * (w / mountains:getWidth()),
+        0,
+        w / mountains:getWidth()
+    )
 end
 
 game.draw = function()
-    draw_background(time)
-    
+    draw_background(death_timer)
+
     tree.draw(logs)
     player.draw(player_data)
 
