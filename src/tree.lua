@@ -9,7 +9,7 @@ local images = {
     branch = {}
 }
 
-local level_length = 3
+local level_length = 4
 
 local logs_on_screen = 8
 local log_image_height
@@ -141,20 +141,22 @@ function tree.draw(data)
         end
     end
 
-    for _, system in ipairs(data.emitters) do
-        love.graphics.draw(
-            system,
-            love.graphics.getWidth()/2,
-            love.graphics.getHeight() - 200 - (log_image_height / 2)
-        )
-    end
-
     love.graphics.draw(base,
         love.graphics.getWidth()/2, love.graphics.getHeight() - 200 * game_scale,
         0,
         game_scale, game_scale,
         base:getWidth()/2, 0
     )
+
+    for _, system in ipairs(data.emitters) do
+        love.graphics.draw(
+            system,
+            love.graphics.getWidth()/2,
+            love.graphics.getHeight() - (200 + (log_image_height / 2)) * game_scale,
+            0,
+            game_scale, game_scale
+        )
+    end
 end
 
 function tree.update(data, dt)
