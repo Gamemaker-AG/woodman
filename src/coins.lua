@@ -64,7 +64,7 @@ coins.keypressed = function(key)
     elseif savegame.getCoins(persisted_state) >= items[item_marked].cost then
       savegame.add_coins(persisted_state, -items[item_marked].cost)
       if items[item_marked].header == 'Kleeblatt' then
-        savegame.add_cloverleaf(persisted_tate)
+        savegame.add_cloverleaf(persisted_state)
         items[1].cost = math.floor(15 * math.pow(1.2, savegame.get_cloverleaf(persisted_state)))
       elseif items[item_marked].header == 'Nuss' then
         savegame.add_nuts(persisted_state)
