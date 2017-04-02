@@ -1,5 +1,5 @@
-local savegame = require("./src/savegame")
-local webscore = require("lib/webscore")
+local savegame = require("src/savegame")
+local webscore = require("src/lib/webscore")
 
 local game_over_state = {}
 

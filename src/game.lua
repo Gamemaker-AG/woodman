@@ -76,7 +76,7 @@ game.keypressed = function(key)
 end
 
 local function draw_background(time)
-    shader = love.graphics.newShader("sunset.glsl")
+    shader = love.graphics.newShader("src/sunset.glsl")
     love.graphics.setColor(0, 0, 0)
     shader:send("time", time)
     love.graphics.setShader(shader)

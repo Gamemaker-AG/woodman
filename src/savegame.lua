@@ -1,5 +1,5 @@
-local bitser = require("lib/bitser")
-local webscore = require("lib/webscore")
+local bitser = require("src/lib/bitser")
+local webscore = require("src/lib/webscore")
 local savegame = {}
 
 savegame.load = function()
