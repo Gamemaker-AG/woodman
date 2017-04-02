@@ -16,6 +16,7 @@ game_over_state.load = function(callback)
     new_highscore = love.graphics.newImage('assets/img/new_highscore.png')
     audio_game_over = love.audio.newSource('assets/sounds/game_over.mp3')
     audio_highscore = love.audio.newSource('assets/sounds/highscore.mp3')
+    tab = love.graphics.newImage('assets/img/tab.png')
 end
 
 game_over_state.restart = function()
@@ -46,8 +47,10 @@ game_over_state.draw = function()
         love.graphics.setFont(normalFont)
     end
 
+    love.graphics.draw(tab, love.graphics.getWidth()-75, love.graphics.getHeight()-100, 0, 0.18, 0.18)
     love.graphics.setColor(0, 0, 0)
     love.graphics.print('(press return to continue)', love.graphics.getWidth()/2-80, love.graphics.getHeight()-40)
+    love.graphics.print('Press tab after the game to invest your coins', love.graphics.getWidth()-370, love.graphics.getHeight()-80)
 end
 
 game_over_state.keypressed = function(key)

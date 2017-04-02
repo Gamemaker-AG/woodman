@@ -13,6 +13,8 @@ end
 function main_menu.keypressed(key)
     if key == 'return' then
         current_state = game
+    elseif key == 'tab' then
+        current_state = coins
     end
 end
 
