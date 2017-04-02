@@ -23,7 +23,7 @@ if [ $TARGET != "linux" ]; then
 fi
 
 if [ $TARGET = "linux" ]; then
-	cp $ROOTDIR/$GAME $PKGDIR 
+	cp $ROOTDIR/$GAME $PKGDIR
 elif [ $TARGET = "windows" ]; then
 	cd $PKGDIR
 	cat $LIBDIR/love.exe $ROOTDIR/$GAME > $NAME.exe
@@ -34,6 +34,9 @@ else
 	echo "ERROR: Unknown target: $TARGET"
 	exit 1
 fi
+
+cd "$ROOTDIR/pkg/$TARGET"
+zip -r "../${NAME}_${TARGET}.zip" "./"
 
 echo "$TARGET packaging finished "
 echo ""
