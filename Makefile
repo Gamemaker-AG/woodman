@@ -1,4 +1,4 @@
-.PHONY: default clean build run package-linux package-windows package-mac package
+.PHONY: default clean build run package-linux package-windows package-osx package
 
 default: run
 
@@ -40,7 +40,7 @@ package-osx: build
 subupdate:
 	git submodule foreach git pull origin master
 
-package: build package-linux package-windows package-mac
+package: build package-linux package-windows package-osx
 
 zip: package
 	cd pkg && zip -q -r space_narcade.zip ./*
