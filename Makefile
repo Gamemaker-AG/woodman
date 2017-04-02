@@ -33,7 +33,7 @@ package-windows: build
 	@./script/download.sh windows
 	@./script/package.sh windows
 
-package-mac: build
+package-osx: build
 	@./script/download.sh osx
 	@./script/package.sh osx
 
