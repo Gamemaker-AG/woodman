@@ -1,4 +1,4 @@
-local anim8 = require('lib/anim8')
+local anim8 = require('src/lib/anim8')
 
 local player = {}
 

@@ -1,4 +1,4 @@
-savegame = require("./src/savegame")
+savegame = require("src/savegame")
 game = require('./src/game')
 game_over_state = require('./src/game_over_state')
 main_menu = require('./src/main_menu')
