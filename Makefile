@@ -14,7 +14,7 @@ clean:
 
 $(NAME).love: buildclean
 	@zip -q $(NAME).love main.lua conf.lua
-	@zip -q -r -0 $(NAME).love assets/*
+	@zip -q -r $(NAME).love assets/*
 	@zip -q -r $(NAME).love src/*
 
 build: $(NAME).love
