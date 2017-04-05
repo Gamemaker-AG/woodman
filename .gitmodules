@@ -1,0 +1,3 @@
+[submodule "foreplay"]
+	path = foreplay
+	url = git@github.com:Nukesor/foreplay
